@@ -1,11 +1,12 @@
 <!-- CSS Styles -->
-<style>
-    .clickable{
-        cursor: pointer;
-        transition: all 0.07s ease-in-out;
-    }
-    .clickable:hover {
-        background-color: yellow !important;
+<style id='css-stylings'>
+    .title-bar {
+        text-align: center;
+        font-family: Roboto, sans-serif;
+        position: relative;
+        border-radius: 25px;
+        padding: 20px;
+        box-shadow: rgb(45 35 66 / 40%) 0 2px 4px, rgb(45 35 66 / 30%) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
     }
     #map-area {
         position: relative;
@@ -82,6 +83,7 @@
     button.active, button:active {
         box-shadow: #D6D6E7 0 3px 7px inset;
         transform: translateY(2px);
+        background: #eadaff;
     }
     button:hover {
         box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
@@ -94,6 +96,9 @@
         width: 100%;
         display: flex;
         justify-content: center;
+        position: relative;
+        padding-bottom: 20px;
+        margin-top: 20px;
     }
     button#department {
         border-top-left-radius: 50px;
@@ -104,8 +109,23 @@
         border-top-right-radius: 50px;
         border-bottom-right-radius: 50px;
     }
-    .switch-buttons {
-        padding-bottom: 20px;
+    #emergencies-dropdown {
+        position: absolute;
+        width: 14rem;
+        top: 48px;
+        z-index: 1;
+        overflow: hidden;
+        box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
+        height: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        transition: height 0.35s ease-in-out;
+    }
+    #emergencies-dropdown button {
+        overflow: hidden;
     }
     
     /*Scrollbar Stylings*/
@@ -170,27 +190,37 @@
     }
 
     /*Directory Stylings*/
+    .clickable{
+        cursor: pointer;
+    }
+    .clickable:hover {
+        background-color: yellow !important;
+    }
     .directory {
         width: 100%;
         border: 1px solid #e0e0e0;
     }
     .sheet-container, .bottom-row {
-        border: 1px solid #e0e0e0;
+        width: 100%;
+        box-shadow: rgb(45 35 66 / 40%) 0 2px 4px, rgb(45 35 66 / 30%) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+        position: relative;
+        font-family: Roboto, sans-serif;
     }
     .bottom-row {
         margin-top: 20px;
         margin-bottom: 40px;
     }
     .sheet-container h4, .bottom-row h4 {
-        font-family: Roboto, sans-serif;
         font-weight: 100;
         margin: 0;
         padding: 7px;
     }
     .top-row {
         display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
         width: 100%;
-        justify-content: space-between;
     }
     #scrollable-directory {
         height: 729px;
@@ -226,10 +256,10 @@
         border-top: 1rem rgb(217 217 217);
         white-space: nowrap;
         font-size: 11pt;
-        transition: all 0.5s;
+        transition: all 0.07s ease-in-out;
     }
     tr {
-        transition: all 0.5s;
+        transition: all 0.07s ease-in-out;
     }
     th {
         background-color: #9900ff;
@@ -241,31 +271,307 @@
     }
     table {
         border-collapse: collapse;
+        width: 100%;
+    }
+    .person-data {
+        position: relative;
+        padding: 11px 30px 11px 0px;
+    }
+    .person-data svg {
+        position: absolute;
+        right: 5px;
+        bottom: 6px;
+        cursor: pointer;
+        transition: all 0.07s ease-in-out;
+        fill: white;
+        padding: 3px;
+        border-radius: 30px;
+        background: #9900ff;
     }
 
-    /* @media only screen and (max-width: 600px) {
-        .top-row {
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-    } */
+    /* Calendar stylings */
+    #calendar-container {
+        width: 100%;
+        margin-bottom: 0;
+        margin-top: 20px;
+        height: 0;
+        overflow: hidden;
+        transition: all 0.25s ease-in-out;
+        box-shadow: rgb(45 35 66 / 40%) 0 2px 4px, rgb(45 35 66 / 30%) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+    }
+    #calendar-frame {
+        width: 100%;
+        transition: all 0.25s ease-in-out;
+    }
+    #close-container svg {
+        cursor: pointer;
+        margin: 9px 15px;
+    }
+    .close-button {
+        transition: all 0.1s ease-in-out;
+        fill: rgb(86, 86, 86);
+    }
+    .close-button:hover {
+        fill: rgb(136, 0, 0);
+    }
+    #close-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #close-container p {
+        font-family: Roboto, sans-serif;    
+        font-weight: 100;
+        margin: 0;
+        padding: 7px;
+    }
+
+    /* Search Stylings */
+    .search-box {
+        font-family: Roboto, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 3rem;
+        box-shadow: rgb(45 35 66 / 40%) 0 2px 4px, rgb(45 35 66 / 30%) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .search-box p, .search-box input {
+        margin: 0;
+    }
+    .search-box p{
+        font-weight: 700;
+    }
+    .search-box input {
+        border: none;
+        box-shadow: rgb(45 35 66 / 40%) 0 2px 4px inset, rgb(45 35 66 / 30%) 0 7px 13px -3px inset, #d6d6e7 0 -3px 0 inset;
+        padding: 10px;
+        border-radius: 10px;
+        width: 25rem;
+    }
+    .search-box input:focus-visible {
+        outline: none;
+    }
+
+    /* Tooltip Stylings */
+    .tooltip-parent {
+        position: absolute;
+        right: 2rem;
+        top: 2rem;
+        cursor: pointer;
+    }
+    .question-mark-svg {
+        height: 50px;
+        width: 50px;
+        fill: #a3a3a3;
+    }
+    /* Tooltip container */
+    .tooltip {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Tooltip text */
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 355px;
+        background-color: white;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+        position: absolute;
+        z-index: 1;
+        top: 100%;
+        left: -495%;
+        margin-left: -60px;
+        opacity: 0;
+        padding-right: 25px;
+        padding-top: 1rem;
+        transition: opacity 0.3s;
+        box-shadow: rgb(45 35 66 / 40%) 0 2px 4px, rgb(45 35 66 / 30%) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+    }
+
+    /* Tooltip arrow */
+    .tooltip .tooltiptext::after {
+        content: '';
+        position: absolute;
+        bottom: 100%;
+        left: 87.5%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: white transparent transparent transparent;
+        transform: rotate(180deg);
+    }
+
+    /* Show the tooltip text when you mouse over the tooltip container */
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
+    .tooltiptext ul {
+        text-align: left;
+    }
+    .sheet-container .tooltip-parent {
+        top: 0.25rem;
+        right: 0.5rem;
+    }
+    .sheet-container .tooltip .tooltiptext {
+        left: -1150%;
+    }
+    .sheet-container .tooltip .tooltiptext::after {
+        left: 95%;
+    }
+    .tooltiptext h3 {
+        padding-left: 40px;
+        margin-top: 0;
+    }
+    .sheet-container svg:not(.tooltip svg, .person-data svg) {
+        height: 23px;
+        width: 23px;
+        position: absolute;
+        top: 0.35rem;
+        right: 2.5rem;
+        cursor: pointer;
+        fill: #a3a3a3;
+    }
 </style>
 
 <!-- Base HTML -->
 <div id='page-cont'>
-    <h1 style='text-align: center;
-        font-family: Roboto, sans-serif;
-        position: relative;
-        border-radius: 25px;
-        padding: 20px;
-        box-shadow: rgb(45 35 66 / 40%) 0 2px 4px, rgb(45 35 66 / 30%) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;'>
-        Interactive Office Map
-    </h1>
+    <div class='title-bar'>
+        <h1>
+            Interactive Office Map
+        </h1>
+        <div class='tooltip-parent'>
+            <div class='tooltip'>
+                <svg xmlns='http://www.w3.org/2000/svg' class='question-mark-svg' 
+                viewBox='0 0 1024 1024' version='1.1'>
+                    <path d='M512 85.333333a426.666667 426.666667 0 1 0 426.666667 426.666667A426.666667 426.666667 
+                    0 0 0 512 85.333333z m0 768a341.333333 341.333333 0 1 1 341.333333-341.333333 341.333333 341.333333 
+                    0 0 1-341.333333 341.333333z'/>
+                    <path d='M512 256a149.333333 149.333333 0 0 0-149.333333 149.333333 42.666667 42.666667 0 0 0 85.333333 
+                    0A64 64 0 1 1 512 469.333333a42.666667 42.666667 0 0 0-42.666667 42.666667v85.333333a42.666667 42.666667 
+                    0 0 0 85.333334 0v-49.493333A148.906667 148.906667 0 0 0 512 256z'/>
+                    <path d='M512 725.333333m-42.666667 0a42.666667 42.666667 0 1 0 85.333334 0 42.666667 42.666667 
+                    0 1 0-85.333334 0Z'/>
+                </svg>
+                <span class='tooltiptext'>
+                    <h3>How to use the interactive map:</h3>
+                    <ul>
+                        <li>
+                            Hover over sections of the map to find what you want
+                        </li> 
+                        <li>
+                            Click on a section to highlight the department or name in the directory below, or click on a conference room to open a calendar
+                            of the meetings scheduled in that room
+                        </li>
+                        <li>
+                            You can switch which map you are using by clicking on the buttons below
+                        </li>
+                        <ul>
+                            <li>
+                                <i>By Department</i> is a map of the departments on each floor
+                            </li>
+                            <li>
+                                <i>By Office</i> is a map of each office on each floor
+                            </li>
+                            <li>
+                                The <i>Emergencies</i> tab contains the evacuation/shelter maps for each respective emergency
+                            </li>
+                        </ul>
+                    </ul>
+                </span>
+            </div>
+        </div>
+    </div>
 
     <div class='switch-buttons'>
         <button id='department' class='active' onclick='handleMapSwitch(this)'>By Department</button>
+        <button id='emergencies' onclick='handleMapSwitch(this)'>Emergencies</button>
         <button id='office' onclick='handleMapSwitch(this)'>By Office</button>
+        <div id='emergencies-dropdown'>
+            <button id='tornado' onclick='switchToEmergency(this)'>
+                <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' 
+                version='1.1' id='Layer_1' x='0px' y='0px' height='20px' width='20px' viewBox='0 0 512 512' style='enable-background:new 0 0 512 512;' xml:space='preserve'>
+                    <g>
+                        <g>
+                            <path d='M471.899,223.977c-0.018,0-0.034,0-0.051,0c-5.61,0-10.172,4.534-10.198,10.15c-0.088,18.076-12.751,35.417-35.657,48.828    
+                            c-2.376,1.391-4.851,2.702-7.375,3.97c36.374-67.861,65.667-136.147,65.667-180.08C484.283,46.932,391.22,0,272.416,0    
+                            S60.548,46.932,60.548,106.844c0,18.791,5.362,42.039,14.341,67.801c-16.928-14.644-26.687-31.954-26.775-50.012    
+                            c-0.028-5.616-4.589-10.149-10.198-10.149c-0.017,0-0.034,0-0.051,0c-5.632,0.028-10.177,4.616-10.149,10.249    
+                            c0.161,33.07,22.798,63.05,60.358,83.758c22.98,53.967,57.041,114.447,89.117,166.864c-4.324-1.959-8.483-4.072-12.409-6.37    
+                            c-22.906-13.411-35.57-30.752-35.657-48.828c-0.026-5.616-4.589-10.15-10.198-10.15c-0.017,0-0.034,0-0.051,0    
+                            c-5.632,0.028-10.177,4.616-10.149,10.248c0.124,25.575,16.372,49.132,45.749,66.333c11.899,6.967,25.434,12.564,40.064,16.675    
+                            c36.21,57.372,66.406,100.008,69.567,104.451c1.913,2.69,5.01,4.287,8.31,4.287s6.397-1.597,8.31-4.287    
+                            c4.645-6.529,67.653-95.509,122.353-192.549c12.016-3.855,23.202-8.743,33.22-14.608c29.378-17.2,45.624-40.757,45.749-66.333    
+                            C482.075,228.592,477.531,224.003,471.899,223.977z M389.225,298.039c-17.17,4.67-36.095,7.087-55.732,6.975    
+                            c-0.017,0-0.034,0-0.051,0c-5.61,0-10.171,4.534-10.198,10.149c-0.026,5.633,4.517,10.222,10.149,10.249    
+                            c0.404,0.002,0.807,0.003,1.211,0.003c14.076,0,27.857-1.205,41.025-3.517c-41.298,71.181-85.282,136.134-103.213,162.08    
+                            c-10.077-14.58-28.38-41.478-49.81-74.876c10.883,1.537,22.124,2.343,33.567,2.343c0.402,0,0.809-0.001,1.211-0.003    
+                            c5.632-0.028,10.177-4.616,10.149-10.249c-0.028-5.616-4.589-10.149-10.198-10.149c-0.017,0-0.034,0-0.051,0    
+                            c-17.299,0.094-34.064-1.781-49.571-5.427c-31.349-50.026-66.509-110.057-91.835-164.531c13.349,4.913,27.912,8.845,43.487,11.614    
+                            c0.604,0.107,1.205,0.159,1.797,0.159c4.851,0,9.152-3.473,10.03-8.415c0.986-5.546-2.71-10.841-8.257-11.827    
+                            c-22.242-3.954-42.284-10.544-59.166-19.029c-13.971-33.792-22.822-64.123-22.822-86.744c0-21.359,19.418-42.915,53.276-59.14    
+                            c36.742-17.608,85.82-27.305,138.193-27.305c52.373,0,101.451,9.697,138.193,27.304c33.857,16.226,53.276,37.781,53.276,59.14    
+                            c0,19.024-25.32,31.278-40.411,36.888c-32.154,11.954-80.72,18.273-140.444,18.273c-0.151,0-0.302,0.003-0.453,0.01    
+                            c-15.626,0.699-60.51-1.622-80.179-20.436c-6.543-6.258-9.723-13.783-9.723-23.003c0-21.808,39.196-33.218,77.914-33.218    
+                            c18.041,0,35.447,2.53,47.752,6.945c11.766,4.22,15.941,8.966,15.941,11.748c0,5.633,4.567,10.199,10.199,10.199    
+                            c5.632,0,10.199-4.566,10.199-10.199c0-9.3-5.11-22.218-29.453-30.95c-14.64-5.251-34.044-8.142-54.638-8.142    
+                            c-24.286,0-47.038,3.981-64.064,11.21c-28.306,12.017-34.247,29.693-34.247,42.406c0,14.876,5.39,27.576,16.022,37.744    
+                            c25.115,24.024,73.234,26.172,89.635,26.172c2.737,0,4.593-0.06,5.309-0.088c62.915-0.014,112.484-6.593,147.341-19.552    
+                            c10.518-3.91,19.047-8.192,25.969-12.664C444.348,192.63,418.315,246.007,389.225,298.039z'/>
+                        </g>
+                    </g>
+                    <g>
+                        <g>
+                            <path d='M212.591,216.784c-2.784,0.013-5.593-0.013-8.361-0.08c-5.59-0.146-10.306,4.318-10.442,9.95    
+                            c-0.136,5.631,4.318,10.306,9.95,10.442c2.46,0.059,4.953,0.089,7.432,0.089c0.508,0,1.016-0.001,1.523-0.003    
+                            c5.632-0.029,10.177-4.617,10.148-10.25C222.812,221.299,218.178,216.755,212.591,216.784z'/>
+                        </g>
+                    </g>
+                </svg>
+            </button>
+            <button id='fire' onclick='switchToEmergency(this)'>
+                <svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' 
+                version='1.1' id='Capa_1' x='0px' y='0px' height='20px' width='20px' viewBox='0 0 50.455 50.455' style='enable-background:new 0 0 50.455 50.455;' xml:space='preserve'>
+                    <g>
+                        <path d='M42.252,19.637l-0.176-0.07l-0.21-0.018c-0.753,0-1.212,0.83-1.929,2.125   
+                        c-0.058,0.103-0.119,0.214-0.184,0.328c-1.084-3.317-4.437-8.905-6.233-10.278c-0.884-0.676-1.318-3.187-1.58-4.702   
+                        c-0.309-1.788-0.479-2.773-1.395-2.773c-0.775,0-1.094,0.775-1.535,1.85c-0.314,0.765-0.9,2.19-1.438,2.191   
+                        c-0.438-0.055-1.475-1.778-3.082-5.123C23.321,0.735,22.968,0,22.139,0c-0.001,0-0.002,0-0.003,0   
+                        c-0.837,0.094-0.882,0.919-0.908,1.413c-0.048,0.924-0.149,2.847-2.359,5.984c-0.658,0.933-1.39,1.894-2.097,2.824   
+                        c-2.586,3.401-5.492,7.226-6.086,11.101c-0.61-1.203-0.954-1.646-1.502-1.646c-1.06,0-1.111,1.099-1.303,5.207   
+                        c-0.075,1.597-0.16,3.406-0.32,5.339c-0.503,6.028,2.241,14.149,8.457,18.007c2.381,1.477,5.266,2.226,8.574,2.226   
+                        c4.019,0,7.95-1.121,10.277-2.164c6.968-2.703,7.711-13.722,7.707-18.333c0-1.662,0.116-3.429,0.219-4.987   
+                        C43.045,21.165,43.082,20.05,42.252,19.637z M41.297,24.909c-0.103,1.579-0.22,3.368-0.22,5.123   
+                        c0.004,4.281-0.649,14.494-6.785,16.876c-0.763,0.342-4.816,2.048-9.7,2.048c-3.024,0-5.643-0.673-7.782-2.001   
+                        C10.435,43,8.68,34.856,9.056,30.348c0.161-1.934,0.25-3.819,0.321-5.335l0.005-0.105c0.042-0.899,0.085-1.819,0.139-2.562   
+                        c0.153,0.309,0.295,0.606,0.394,0.811c0.797,1.657,0.963,2.003,1.554,2.003h0.001l0.371-0.015l0.221-0.275   
+                        c0.267-0.334,0.198-0.745,0.059-1.358c-0.494-4.036,2.874-8.469,5.848-12.382c0.683-0.896,1.456-1.913,2.128-2.867   
+                        c1.726-2.449,2.302-4.261,2.511-5.543c0.182,0.367,0.369,0.757,0.532,1.098c1.678,3.49,2.88,5.79,4.249,5.962   
+                        c1.604,0.202,2.443-1.732,2.982-3.038c0.032,0.185,0.064,0.371,0.095,0.549c0.355,2.046,0.795,4.593,2.146,5.626   
+                        c1.637,1.252,5.538,7.85,5.969,10.527c0.182,0.789,0.753,0.851,0.924,0.851c0.699-0.001,1.102-0.728,1.769-1.932   
+                        c0.055-0.099,0.115-0.208,0.179-0.321C41.431,22.877,41.36,23.964,41.297,24.909z M33.043,32.651l-0.341-0.078   
+                        c-0.389,0-0.643,0.245-0.882,0.612c-0.646-1.479-1.863-3.458-2.639-4.05c-0.28-0.215-0.488-1.423-0.567-1.882   
+                        c-0.151-0.867-0.27-1.553-0.996-1.553c-0.601,0-0.822,0.541-1.038,1.067c-0.115,0.279-0.212,0.486-0.288,0.618   
+                        c-0.161-0.229-0.477-0.756-1.058-1.964c-0.569-1.184-0.783-1.629-1.43-1.629c-0.002,0-0.004,0-0.005,0   
+                        c-0.689,0.079-0.729,0.76-0.742,0.989c-0.019,0.378-0.057,1.164-0.99,2.489c-0.294,0.417-0.618,0.845-0.935,1.26   
+                        c-0.997,1.312-2.106,2.771-2.599,4.296c-0.141-0.125-0.305-0.197-0.512-0.197c-0.833,0-0.864,0.68-0.96,2.696   
+                        c-0.032,0.714-0.07,1.521-0.142,2.385c-0.234,2.821,1.055,6.625,3.975,8.438c1.13,0.701,2.492,1.057,4.049,1.057   
+                        c1.862,0,3.684-0.519,4.752-0.997c3.347-1.299,3.703-6.437,3.701-8.585c0-0.753,0.055-1.564,0.098-2.217  
+                        C33.612,33.624,33.656,32.957,33.043,32.651z M32.073,35.331c-0.046,0.713-0.099,1.521-0.099,2.326   
+                        c0.001,1.846-0.271,6.246-2.826,7.237c-0.331,0.148-2.089,0.887-4.205,0.887c-1.287,0-2.397-0.283-3.298-0.842   
+                        c-2.719-1.688-3.468-5.176-3.307-7.109c0.068-0.81,0.106-1.601,0.138-2.257c0.153,0.188,0.321,0.27,0.587,0.27c0,0,0,0,0.001,0   
+                        l0.336-0.014l0.209-0.259c0.239-0.301,0.16-0.647,0.103-0.888c-0.202-1.661,1.26-3.586,2.596-5.345   
+                        c0.298-0.392,0.631-0.83,0.922-1.243c0.405-0.576,0.709-1.123,0.915-1.652c0.729,1.492,1.265,2.397,2.007,2.489   
+                        c0.538,0.071,0.935-0.226,1.215-0.6c0.165,0.766,0.42,1.529,0.95,1.935c0.659,0.504,2.364,3.407,2.543,4.516   
+                        c0.115,0.496,0.492,0.673,0.782,0.673c0.167-0.001,0.307-0.047,0.431-0.13C32.073,35.327,32.073,35.329,32.073,35.331z'/>
+                    </g>
+                </svg>
+            </button>
+        </div>
     </div>
     <div id='map-area'>
         <div class='inner-cont'>
@@ -290,65 +596,80 @@
                 <div id='floor1-office' style='display: none'>
                     <img id='floor1-office-img' class='base-img' src='https://i.imgur.com/3GeZ81S.png' usemap='#by-office1'>
                     <map id='by-office1' style='visibility: hidden;' name='by-office1'>
-                        <area target='_self' alt='1' title='1' href='#' onclick='highlightName(this)' labelText='IT Annex' coords='147,165,236,208' shape='rect'>
-                        <area target='_self' alt='2' title='2' href='#' onclick='highlightName(this)' labelText='0' coords='145,212,194,260' shape='rect'>
-                        <area target='_self' alt='3' title='3' href='#' onclick='highlightName(this)' labelText='00' coords='200,212,231,258' shape='rect'>
-                        <area target='_self' alt='4' title='4' href='#' onclick='highlightName(this)' labelText='000' coords='147,454,190,505' shape='rect'>
-                        <area target='_self' alt='5' title='5' href='#' onclick='highlightName(this)' labelText='0000' coords='313,459,348,506' shape='rect'>
-                        <area target='_self' alt='6' title='6' href='#' onclick='highlightName(this)' labelText='00000' coords='354,458,396,505' shape='rect'>
-                        <area target='_self' alt='7' title='7' href='#' onclick='highlightName(this)' labelText='000000' coords='399,455,438,508' shape='rect'>
-                        <area target='_self' alt='8' title='8' href='#' onclick='highlightName(this)' labelText='' coords='443,459,484,509' shape='rect'>
-                        <area target='_self' alt='9' title='9' href='#' onclick='highlightName(this)' labelText='' coords='489,464,540,506' shape='rect'>
-                        <area target='_self' alt='10' title='10' href='#' onclick='highlightName(this)' labelText='' coords='542,460,587,505' shape='rect'>
-                        <area target='_self' alt='11' title='11' href='#' onclick='highlightName(this)' labelText='' coords='591,431,588,505,734,508,731,456,662,454,660,432' shape='poly'>
-                        <area target='_self' alt='12' title='12' href='#' onclick='highlightName(this)' labelText='0000000' coords='734,456,788,506' shape='rect'>
-                        <area target='_self' alt='13' title='13' href='#' onclick='highlightName(this)' labelText='00000000' coords='790,456,841,508' shape='rect'>
-                        <area target='_self' alt='14' title='14' href='#' onclick='highlightName(this)' labelText='' coords='843,456,910,505' shape='rect'>
-                        <area target='_self' alt='15' title='15' href='#' onclick='highlightName(this)' labelText='000000000' coords='909,436,964,508' shape='rect'>
-                        <area target='_self' alt='16' title='16' href='#' onclick='highlightName(this)' labelText='' coords='964,411,1015,454' shape='rect'>
-                        <area target='_self' alt='17' title='17' href='#' onclick='highlightName(this)' labelText='' coords='967,458,1013,505' shape='rect'>
-                        <area target='_self' alt='18' title='18' href='#' onclick='highlightName(this)' labelText='' coords='1017,469,1072,508' shape='rect'>
-                        <area target='_self' alt='19' title='19' href='#' onclick='highlightName(this)' labelText='' coords='1073,470,1120,508' shape='rect'>
-                        <area target='_self' alt='20' title='20' href='#' onclick='highlightName(this)' labelText='' coords='1125,460,1152,494' shape='rect'>
-                        <area target='_self' alt='21' title='21' href='#' onclick='highlightName(this)' labelText='' coords='1216,333,17' shape='circle'>
-                        <area target='_self' alt='22' title='22' href='#' onclick='highlightName(this)' labelText='' coords='1077,330,1120,384' shape='rect'>
-                        <area target='_self' alt='23' title='23' href='#' onclick='highlightName(this)' labelText='' coords='1080,278,1121,326' shape='rect'>
-                        <area target='_self' alt='24' title='24' href='#' onclick='highlightName(this)' labelText='Art Meeting Room' coords='1081,225,1121,274' shape='rect'>
-                        <area target='_self' alt='25' title='25' href='#' onclick='highlightName(this)' labelText='' coords='1084,171,1122,221' shape='rect'>
-                        <area target='_self' alt='26' title='26' href='#' onclick='highlightName(this)' labelText='' coords='1033,167,1085,209' shape='rect'>
-                        <area target='_self' alt='27' title='27' href='#' onclick='highlightName(this)' labelText='' coords='979,170,1031,233' shape='rect'>
-                        <area target='_self' alt='28' title='28' href='#' onclick='highlightName(this)' labelText='' coords='979,234,1033,293' shape='rect'>
-                        <area target='_self' alt='29' title='29' href='#' onclick='highlightName(this)' labelText='Art Department Conference Space' coords='919,294,1037,384' shape='rect'>
-                        <area target='_self' alt='30' title='30' href='#' onclick='highlightName(this)' labelText='Mechanicals' coords='977,290,802,167' shape='rect'>
-                        <area target='_self' alt='31' title='31' href='#' onclick='highlightName(this)' labelText='' coords='802,293,859,344' shape='rect'>
-                        <area target='_self' alt='32' title='32' href='#' onclick='highlightName(this)' labelText='0000000000' coords='802,348,860,388' shape='rect'>
-                        <area target='_self' alt='33' title='33' href='#' onclick='highlightName(this)' labelText='00000000000' coords='801,391,855,428' shape='rect'>
-                        <area target='_self' alt='34' title='34' href='#' onclick='highlightName(this)' labelText='Tents Storage' coords='717,168,798,166,801,428,784,427,776,379,765,382,765,369,736,368,738,316,739,285,708,284,709,235,718,236' shape='poly'>
-                        <area target='_self' alt='35' title='35' href='#' onclick='highlightName(this)' labelText='' coords='664,170,717,234' shape='rect'>
-                        <area target='_self' alt='36' title='36' href='#' onclick='highlightName(this)' labelText='' coords='591,167,662,218' shape='rect'>
-                        <area target='_self' alt='37' title='37' href='#' onclick='highlightName(this)' labelText='IT Storage' coords='500,166,590,207' shape='rect'>
-                        <area target='_self' alt='38' title='38' href='#' onclick='highlightName(this)' labelText='IT storage' coords='470,239,362,170' shape='rect'>
-                        <area target='_self' alt='39' title='39' href='#' onclick='highlightName(this)' labelText='000000000000' coords='320,167,359,238' shape='rect'>
-                        <area target='_self' alt='40' title='40' href='#' onclick='highlightName(this)' labelText='0000000000000' coords='264,170,320,239' shape='rect'>
-                        <area target='_self' alt='41' title='41' href='#' onclick='highlightName(this)' labelText='00000000000000' coords='259,261,302,312' shape='rect'>
-                        <area target='_self' alt='42' title='42' href='#' onclick='highlightName(this)' labelText='000000000000000' coords='307,265,352,311' shape='rect'>
-                        <area target='_self' alt='43' title='43' href='#' onclick='highlightName(this)' labelText='0000000000000000' coords='354,265,393,314' shape='rect'>
-                        <area target='_self' alt='44' title='44' href='#' onclick='highlightName(this)' labelText='00000000000000000' coords='398,265,441,316' shape='rect'>
-                        <area target='_self' alt='45' title='45' href='#' onclick='highlightName(this)' labelText='IT Conference Room' coords='587,324,660,371' shape='rect'>
-                        <area target='_self' alt='46' title='46' href='#' onclick='highlightName(this)' labelText='' coords='590,370,657,429' shape='rect'>
-                        <area target='_self' alt='47' title='47' href='#' onclick='highlightName(this)' labelText='IT Imaging' coords='684,235,709,283' shape='rect'>
-                        <area target='_self' alt='48' title='48' href='#' onclick='highlightName(this)' labelText='Kitchen' coords='684,351,734,379' shape='rect'>
-                        <area target='_self' alt='49' title='49' href='#' onclick='highlightName(this)' labelText='&quot;Samples&quot; Conference Room' coords='686,384,779,431' shape='rect'>
-                        <area target='_self' alt='50' title='50' href='#' onclick='highlightName(this)' labelText='' coords='532,366,559,395' shape='rect'>
-                        <area target='_self' alt='51' title='51' href='#' onclick='highlightName(this)' labelText='' coords='505,367,530,392' shape='rect'>
-                        <area target='_self' alt='52' title='52' href='#' onclick='highlightName(this)' labelText='IT Help Desk' coords='471,369,495,393' shape='rect'>
-                        <area target='_self' alt='53' title='53' href='#' onclick='highlightName(this)' labelText='IT Help Desk' coords='443,368,470,392' shape='rect'>
-                        <area target='_self' alt='54' title='54' href='#' onclick='highlightName(this)' labelText='IT Help Desk' coords='443,396,470,424' shape='rect'>
-                        <area target='_self' alt='55' title='55' href='#' onclick='highlightName(this)' labelText='IT Help Desk' coords='469,393,497,424' shape='rect'>
-                        <area target='_self' alt='56' title='56' href='#' onclick='highlightName(this)' labelText='IT Help Desk' coords='501,395,528,420' shape='rect'>
-                        <area target='_self' alt='57' title='57' href='#' onclick='highlightName(this)' labelText='' coords='533,396,558,420' shape='rect'>
-                        <area target='_self' alt='58' title='58' href='#' onclick='highlightName(this)' labelText='Exercise space ' coords='280,342,394,422' shape='rect'>
-                        <area target='_self' alt='59' title='59' href='#' onclick='highlightName(this)' labelText='Gym' coords='188,384,308,506' shape='rect'>
+                        <area target='_self' alt='1' title='1' href='#' labelText='IT Annex' coords='147,165,236,208' shape='rect'>
+                        <area target='_self' alt='2' title='2' href='#' labelText='0' coords='145,212,194,260' shape='rect'>
+                        <area target='_self' alt='3' title='3' href='#' labelText='00' coords='200,212,231,258' shape='rect'>
+                        <area target='_self' alt='4' title='4' href='#' labelText='000' coords='147,454,190,505' shape='rect'>
+                        <area target='_self' alt='5' title='5' href='#' labelText='0000' coords='313,459,348,506' shape='rect'>
+                        <area target='_self' alt='6' title='6' href='#' labelText='00000' coords='354,458,396,505' shape='rect'>
+                        <area target='_self' alt='7' title='7' href='#' labelText='000000' coords='399,455,438,508' shape='rect'>
+                        <area target='_self' alt='8' title='8' href='#' labelText='' coords='443,459,484,509' shape='rect'>
+                        <area target='_self' alt='9' title='9' href='#' labelText='' coords='489,464,540,506' shape='rect'>
+                        <area target='_self' alt='10' title='10' href='#' labelText='' coords='542,460,587,505' shape='rect'>
+                        <area target='_self' alt='11' title='11' href='#' labelText='' coords='591,431,588,505,734,508,731,456,662,454,660,432' shape='poly'>
+                        <area target='_self' alt='12' title='12' href='#' labelText='0000000' coords='734,456,788,506' shape='rect'>
+                        <area target='_self' alt='13' title='13' href='#' labelText='00000000' coords='790,456,841,508' shape='rect'>
+                        <area target='_self' alt='14' title='14' href='#' labelText='' coords='843,456,910,505' shape='rect'>
+                        <area target='_self' alt='15' title='15' href='#' labelText='000000000' coords='909,436,964,508' shape='rect'>
+                        <area target='_self' alt='16' title='16' href='#' labelText='' coords='964,411,1015,454' shape='rect'>
+                        <area target='_self' alt='17' title='17' href='#' labelText='' coords='967,458,1013,505' shape='rect'>
+                        <area target='_self' alt='18' title='18' href='#' labelText='' coords='1017,469,1072,508' shape='rect'>
+                        <area target='_self' alt='19' title='19' href='#' labelText='' coords='1073,470,1120,508' shape='rect'>
+                        <area target='_self' alt='20' title='20' href='#' labelText='' coords='1125,460,1152,494' shape='rect'>
+                        <area target='_self' alt='21' title='21' href='#' labelText='' coords='1216,333,17' shape='circle'>
+                        <area target='_self' alt='22' title='22' href='#' labelText='' coords='1077,330,1120,384' shape='rect'>
+                        <area target='_self' alt='23' title='23' href='#' labelText='' coords='1080,278,1121,326' shape='rect'>
+                        <area target='_self' alt='24' title='24' href='#' labelText='Art Meeting Room' coords='1081,225,1121,274' shape='rect'>
+                        <area target='_self' alt='25' title='25' href='#' labelText='' coords='1084,171,1122,221' shape='rect'>
+                        <area target='_self' alt='26' title='26' href='#' labelText='' coords='1033,167,1085,209' shape='rect'>
+                        <area target='_self' alt='27' title='27' href='#' labelText='' coords='979,170,1031,233' shape='rect'>
+                        <area target='_self' alt='28' title='28' href='#' labelText='' coords='979,234,1033,293' shape='rect'>
+                        <area target='_self' alt='29' title='29' href='#' labelText='Art Department Conference Space' coords='919,294,1037,384' shape='rect'>
+                        <area target='_self' alt='30' title='30' href='#' labelText='Mechanicals' coords='977,290,802,167' shape='rect'>
+                        <area target='_self' alt='31' title='31' href='#' labelText='' coords='802,293,859,344' shape='rect'>
+                        <area target='_self' alt='32' title='32' href='#' labelText='0000000000' coords='802,348,860,388' shape='rect'>
+                        <area target='_self' alt='33' title='33' href='#' labelText='00000000000' coords='801,391,855,428' shape='rect'>
+                        <area target='_self' alt='34' title='34' href='#' labelText='Tents Storage' coords='717,168,798,166,801,428,784,427,776,379,765,382,765,369,736,368,738,316,739,285,708,284,709,235,718,236' shape='poly'>
+                        <area target='_self' alt='35' title='35' href='#' labelText='' coords='664,170,717,234' shape='rect'>
+                        <area target='_self' alt='36' title='36' href='#' labelText='' coords='591,167,662,218' shape='rect'>
+                        <area target='_self' alt='37' title='37' href='#' labelText='IT Storage' coords='500,166,590,207' shape='rect'>
+                        <area target='_self' alt='38' title='38' href='#' labelText='IT storage' coords='470,239,362,170' shape='rect'>
+                        <area target='_self' alt='39' title='39' href='#' labelText='000000000000' coords='320,167,359,238' shape='rect'>
+                        <area target='_self' alt='40' title='40' href='#' labelText='0000000000000' coords='264,170,320,239' shape='rect'>
+                        <area target='_self' alt='41' title='41' href='#' labelText='00000000000000' coords='259,261,302,312' shape='rect'>
+                        <area target='_self' alt='42' title='42' href='#' labelText='000000000000000' coords='307,265,352,311' shape='rect'>
+                        <area target='_self' alt='43' title='43' href='#' labelText='0000000000000000' coords='354,265,393,314' shape='rect'>
+                        <area target='_self' alt='44' title='44' href='#' labelText='00000000000000000' coords='398,265,441,316' shape='rect'>
+                        <area target='_self' alt='45' title='45' href='#' onclick='openCalendar(this)' labelText='IT Conference Room' 
+                            calendarLink='https://calendar.google.com/calendar/embed?src=fireworks.com_3739363630373730353734%40resource.calendar.google.com&ctz=America%2FNew_York' coords='587,324,660,371' shape='rect'>
+                        <area target='_self' alt='46' title='46' href='#' labelText='' coords='590,370,657,429' shape='rect'>
+                        <area target='_self' alt='47' title='47' href='#' labelText='IT Imaging' coords='684,235,709,283' shape='rect'>
+                        <area target='_self' alt='48' title='48' href='#' labelText='Kitchen' coords='684,351,734,379' shape='rect'>
+                        <area target='_self' alt='49' title='49' href='#' labelText='&quot;Samples&quot; Conference Room' coords='686,384,779,431' shape='rect'>
+                        <area target='_self' alt='50' title='50' href='#' labelText='' coords='532,366,559,395' shape='rect'>
+                        <area target='_self' alt='51' title='51' href='#' labelText='' coords='505,367,530,392' shape='rect'>
+                        <area target='_self' alt='52' title='52' href='#' labelText='IT Help Desk' coords='471,369,495,393' shape='rect'>
+                        <area target='_self' alt='53' title='53' href='#' labelText='IT Help Desk' coords='443,368,470,392' shape='rect'>
+                        <area target='_self' alt='54' title='54' href='#' labelText='IT Help Desk' coords='443,396,470,424' shape='rect'>
+                        <area target='_self' alt='55' title='55' href='#' labelText='IT Help Desk' coords='469,393,497,424' shape='rect'>
+                        <area target='_self' alt='56' title='56' href='#' labelText='IT Help Desk' coords='501,395,528,420' shape='rect'>
+                        <area target='_self' alt='57' title='57' href='#' labelText='' coords='533,396,558,420' shape='rect'>
+                        <area target='_self' alt='58' title='58' href='#' labelText='Exercise space ' coords='280,342,394,422' shape='rect'>
+                        <area target='_self' alt='59' title='59' href='#' labelText='Gym' coords='188,384,308,506' shape='rect'>
+                    </map>
+                </div>
+                
+                <div id='floor1-tornado' style='display: none'>
+                    <img id='floor1-tornado-img' class='base-img' src='https://i.imgur.com/3GeZ81S.png' usemap='#floor1-tornado-map'>
+                    <map id='floor1-tornado-map' style='visibility: hidden;' name='floor1-tornado-map'>
+                        <area target='_self' floor='1' alt='A' title='A' href='#' onclick='highlightShelter(this)' labelText='Section A' coords='145,162,439,506' shape='rect'>
+                        <area target='_self' floor='1' alt='B' title='B' href='#' onclick='highlightShelter(this)' labelText='Section B' coords='439,161,801,505' shape='rect'>
+                        <area target='_self' floor='1' alt='C' title='C' href='#' onclick='highlightShelter(this)' labelText='Section C' coords='801,294,895,290,892,162,1247,165,1242,509,803,506' shape='poly'>
+                        <area target='_self' floor='1' alt='A' title='A' href='#' labelText='A Shelter' coords='142,261,236,332' shape='rect'>
+                        <area target='_self' floor='1' alt='B' title='B' href='#' labelText='B Shelter' coords='500,166,591,207' shape='rect'>
+                        <area target='_self' floor='1' alt='C' title='C' href='#' labelText='C Shelter' coords='1156,166,1246,236' shape='rect'>
+                        <area target='_self' floor='1' alt='D' title='D' href='#' labelText='Overflow Shelter 1' coords='978,231,1031,292' shape='rect'>
+                        <area target='_self' floor='1' alt='D' title='D' href='#' labelText='Overflow Shelter 2' coords='590,325,659,370' shape='rect'>
                     </map>
                 </div>
             </div>
@@ -379,148 +700,222 @@
                         <area target='' alt='21' title='21' href='#' onclick='highlightRelevantDepartment(this)' labelText='Accounting &amp; Payroll' coords='645,87,648,196,752,201,787,288,787,535,846,535,841,698,1034,703,1032,591,1037,527,1413,522,1411,316,1327,321,1329,81' shape='poly'>
                         <area target='' alt='22' title='22' href='#' onclick='highlightRelevantDepartment(this)' labelText='Tents' coords='411,87,640,87,642,214,780,293,785,377,416,379' shape='poly'>
                         <area target='' alt='23' title='23' href='#' onclick='highlightRelevantDepartment(this)' labelText='Chain Stores' coords='350,815,497,947' shape='rect'>
-                        <area target='' alt='24' title='24' href='#' onclick='highlightRelevantDepartment(this)' labelText='Executive Conference Room' coords='1688,463,1881,822' shape='rect'>
-                        <area target='' alt='25' title='25' href='#' onclick='highlightRelevantDepartment(this)' labelText='Large Conference Room' coords='2624,244,2858,540' shape='rect'>
-                        <area target='' alt='26' title='26' href='#' onclick='highlightRelevantDepartment(this)' labelText='Northern Conference Room' coords='276,87,406,303' shape='rect'>
+                        <area target='' alt='24' title='24' href='#' onclick='openCalendar(this)' labelText='Executive Conference Room' 
+                            calendarLink='https://calendar.google.com/calendar/embed?src=fireworks.com_3430313734373735383134%40resource.calendar.google.com&ctz=America%2FNew_York' coords='1688,463,1881,822' shape='rect'>
+                        <area target='' alt='25' title='25' href='#' onclick='openCalendar(this)' labelText='Large Conference Room' 
+                            calendarLink='https://calendar.google.com/calendar/embed?src=fireworks.com_3136353336343535353239%40resource.calendar.google.com&ctz=America%2FNew_York' coords='2624,244,2858,540' shape='rect'>
+                        <area target='' alt='26' title='26' href='#' onclick='openCalendar(this)' labelText='Northern Conference Room' 
+                            calendarLink='https://calendar.google.com/calendar/embed?src=fireworks.com_3130393831373030313838%40resource.calendar.google.com&ctz=America%2FNew_York' coords='276,87,406,303' shape='rect'>
                     </map>
                 </div>
                 <div id='floor2-office' style='display: none'>
                     <img id='floor2-office-img' class='base-img' src='https://i.imgur.com/YIBHUHr.png' usemap='#by-office'>
                     <map id='by-office' style='visibility: hidden;' name='by-office'>
-                        <area target='_self' alt='1' title='1' href='#' onclick='highlightName(this)' labelText='' coords='34,249,151,349' shape='rect'>
-                        <area target='_self' alt='2' title='2' href='#' onclick='highlightName(this)' labelText='' coords='39,341,146,418' shape='rect'>
-                        <area target='_self' alt='3' title='3' href='#' onclick='highlightName(this)' labelText='' coords='37,425,141,545' shape='rect'>
-                        <area target='_self' alt='4' title='4' href='#' onclick='highlightName(this)' labelText='' coords='32,545,144,680' shape='rect'>
-                        <area target='_self' alt='5' title='5' href='#' onclick='highlightName(this)' labelText='000000000000000000' coords='34,691,139,818' shape='rect'>
-                        <area target='_self' alt='6' title='6' href='#' onclick='highlightName(this)' labelText='' coords='149,950,34,817' shape='rect'>
-                        <area target='_self' alt='7' title='7' href='#' onclick='highlightName(this)' labelText='' coords='159,814,266,952' shape='rect'>
-                        <area target='_self' alt='9' title='9' href='#' onclick='highlightName(this)' labelText='' coords='268,810,342,952' shape='rect'>
-                        <area target='_self' alt='10' title='10' href='#' onclick='highlightName(this)' labelText='00000000000000000000000' coords='457,878' shape='rect'>
-                        <area target='_self' alt='11' title='11' href='#' onclick='highlightName(this)' labelText='' coords='345,815,497,945' shape='rect'>
-                        <area target='_self' alt='12' title='12' href='#' onclick='highlightName(this)' labelText='' coords='492,812,655,952' shape='rect'>
-                        <area target='_self' alt='13' title='13' href='#' onclick='highlightName(this)' labelText='' coords='696,810,876,950' shape='rect'>
-                        <area target='_self' alt='14' title='14' href='#' onclick='highlightName(this)' labelText='' coords='887,807,1021,947' shape='rect'>
-                        <area target='_self' alt='15' title='15' href='#' onclick='highlightName(this)' labelText='' coords='1029,810,1108,945' shape='rect'>
-                        <area target='_self' alt='16' title='16' href='#' onclick='highlightName(this)' labelText='' coords='1108,809,1215,949' shape='rect'>
-                        <area target='_self' alt='17' title='17' href='#' onclick='highlightName(this)' labelText='' coords='1299,708,1441,945' shape='rect'>
-                        <area target='_self' alt='18' title='18' href='#' onclick='highlightName(this)' labelText='' coords='1451,945,1670,596' shape='rect'>
-                        <area target='_self' alt='19' title='19' href='#' onclick='highlightName(this)' labelText='' coords='1782,830,1942,950' shape='rect'>
-                        <area target='_self' alt='20' title='20' href='#' onclick='highlightName(this)' labelText='' coords='1950,835,2060,947' shape='rect'>
-                        <area target='_self' alt='21' title='21' href='#' onclick='highlightName(this)' labelText='' coords='2065,827,2166,947' shape='rect'>
-                        <area target='_self' alt='22' title='22' href='#' onclick='highlightName(this)' labelText='' coords='2174,833,2283,950' shape='rect'>
-                        <area target='_self' alt='23' title='23' href='#' onclick='highlightName(this)' labelText='' coords='2286,830,2357,950' shape='rect'>
-                        <area target='_self' alt='24' title='24' href='#' onclick='highlightName(this)' labelText='' coords='2362,827,2433,945' shape='rect'>
-                        <area target='_self' alt='25' title='25' href='#' onclick='highlightName(this)' labelText='' coords='2446,825,2584,950' shape='rect'>
-                        <area target='_self' alt='26' title='26' href='#' onclick='highlightName(this)' labelText='' coords='2591,833,2668,950' shape='rect'>
-                        <area target='_self' alt='27' title='27' href='#' onclick='highlightName(this)' labelText='' coords='2670,947,2734,827' shape='rect'>
-                        <area target='_self' alt='28' title='28' href='#' onclick='highlightName(this)' labelText='' coords='2736,812,2856,945' shape='rect'>
-                        <area target='_self' alt='29' title='29' href='#' onclick='highlightName(this)' labelText='' coords='2744,672,2861,810' shape='rect'>
-                        <area target='_self' alt='30' title='30' href='#' onclick='highlightName(this)' labelText='' coords='2764,550,2871,670' shape='rect'>
-                        <area target='_self' alt='31' title='31' href='#' onclick='highlightName(this)' labelText='' coords='2433,607,2528,465' shape='rect'>
-                        <area target='_self' alt='32' title='32' href='#' onclick='highlightName(this)' labelText='Large Conference Room' coords='2622,244,2869,542' shape='rect'>
-                        <area target='_self' alt='33' title='33' href='#' onclick='highlightName(this)' labelText='' coords='2357,453,2428,616' shape='rect'>
-                        <area target='_self' alt='34' title='34' href='#' onclick='highlightName(this)' labelText='' coords='2243,453,2352,616' shape='rect'>
-                        <area target='_self' alt='35' title='35' href='#' onclick='highlightName(this)' labelText='00000000000000000000000000000000000' coords='1935,229,2060,395' shape='rect'>
-                        <area target='_self' alt='36' title='36' href='#' onclick='highlightName(this)' labelText='' coords='1683,81,1869,252' shape='rect'>
-                        <area target='_self' alt='37' title='37' href='#' onclick='highlightName(this)' labelText='' coords='1480,92,1670,244' shape='rect'>
-                        <area target='_self' alt='39' title='39' href='#' onclick='highlightName(this)' labelText='' coords='1340,87,1477,247' shape='rect'>
-                        <area target='_self' alt='40' title='40' href='#' onclick='highlightName(this)' labelText='' coords='1233,89,1327,247' shape='rect'>
-                        <area target='_self' alt='41' title='41' href='#' onclick='highlightName(this)' labelText='' coords='1599,249,1719,395' shape='rect'>
-                        <area target='_self' alt='42' title='42' href='#' onclick='highlightName(this)' labelText='' coords='1146,81,1230,255' shape='rect'>
-                        <area target='_self' alt='43' title='43' href='#' onclick='highlightName(this)' labelText='000000000000000000000000000000000000' coords='1021,130,1136,265' shape='rect'>
-                        <area target='_self' alt='45' title='45' href='#' onclick='highlightName(this)' labelText='' coords='841,94,1014,204' shape='rect'>
-                        <area target='_self' alt='46' title='46' href='#' onclick='highlightName(this)' labelText='' coords='731,82,833,160' shape='rect'>
-                        <area target='_self' alt='47' title='47' href='#' onclick='highlightName(this)' labelText='' coords='647,89,726,201' shape='rect'>
-                        <area target='_self' alt='48' title='48' href='#' onclick='highlightName(this)' labelText='' coords='541,87,650,201' shape='rect'>
-                        <area target='_self' alt='49' title='49' href='#' onclick='highlightName(this)' labelText='' coords='419,81,533,199' shape='rect'>
-                        <area target='_self' alt='50' title='50' href='#' onclick='highlightName(this)' labelText='North Conference Room' coords='263,79,413,303' shape='rect'>
-                        <area target='_self' alt='51' title='51' href='#' onclick='highlightName(this)' labelText='' coords='184,242,268,392' shape='rect'>
-                        <area target='_self' alt='52' title='52' href='#' onclick='highlightName(this)' labelText='0000000000000000000000000000000000000' coords='184,395,263,494' shape='rect'>
-                        <area target='_self' alt='53' title='53' href='#' onclick='highlightName(this)' labelText='00000000000000000000000000000000000000' coords='218,670,266,769' shape='rect'>
-                        <area target='_self' alt='54' title='54' href='#' onclick='highlightName(this)' labelText='' coords='350,593,474,698' shape='rect'>
-                        <area target='_self' alt='55' title='55' href='#' onclick='highlightName(this)' labelText='000000000000000000000000000000000000000' coords='355,705,482,769' shape='rect'>
-                        <area target='_self' alt='56' title='56' href='#' onclick='highlightName(this)' labelText='' coords='569,596,668,695' shape='rect'>
-                        <area target='_self' alt='57' title='57' href='#' onclick='highlightName(this)' labelText='00000000000000000000000000000000000000000' coords='571,700,665,761' shape='rect'>
-                        <area target='_self' alt='58' title='58' href='#' onclick='highlightName(this)' labelText='' coords='675,598,757,692' shape='rect'>
-                        <area target='_self' alt='59' title='59' href='#' onclick='highlightName(this)' labelText='' coords='663,705,757,759' shape='rect'>
-                        <area target='_self' alt='60' title='60' href='#' onclick='highlightName(this)' labelText='' coords='836,596,940,703' shape='rect'>
-                        <area target='_self' alt='61' title='61' href='#' onclick='highlightName(this)' labelText='' coords='838,710,1032,759' shape='rect'>
-                        <area target='_self' alt='62' title='62' href='#' onclick='highlightName(this)' labelText='' coords='938,593,1039,703' shape='rect'>
-                        <area target='_self' alt='64' title='64' href='#' onclick='highlightName(this)' labelText='00000000000000000000000000000000000000000000' coords='1044,601,1149,675' shape='rect'>
-                        <area target='_self' alt='65' title='65' href='#' onclick='highlightName(this)' labelText='' coords='1044,677,1149,741' shape='rect'>
-                        <area target='_self' alt='66' title='66' href='#' onclick='highlightName(this)' labelText='' coords='1182,593,1184,685,1217,687,1222,766,1294,766,1291,695,1370,692,1367,593' shape='poly'>
-                        <area target='_self' alt='67' title='67' href='#' onclick='highlightName(this)' labelText='Executive Conference Room' coords='1678,463,1869,820' shape='rect'>
-                        <area target='_self' alt='68' title='68' href='#' onclick='highlightName(this)' labelText='Legal Conference Room' coords='1482,252,1591,392' shape='rect'>
-                        <area target='_self' alt='69' title='69' href='#' onclick='highlightName(this)' labelText='Legal File Room' coords='1721,255,1869,392' shape='rect'>
-                        <area target='_self' alt='70' title='70' href='#' onclick='highlightName(this)' labelText='' coords='803,308,894,415' shape='rect'>
-                        <area target='_self' alt='71' title='71' href='#' onclick='highlightName(this)' labelText='' coords='785,420,899,524' shape='rect'>
-                        <area target='_self' alt='72' title='72' href='#' onclick='highlightName(this)' labelText='' coords='759,168,836,252' shape='rect'>
-                        <area target='_self' alt='73' title='73' href='#' onclick='highlightName(this)' labelText='Customer Service (Old Art)' coords='1874,455,1973,542' shape='rect'>
-                        <area target='_self' alt='74' title='74' href='#' onclick='highlightName(this)' labelText='0000000000000000000000000000000000000000000000' coords='1978,458,2049,502' shape='rect'>
-                        <area target='_self' alt='75' title='75' href='#' onclick='highlightName(this)' labelText='00000000000000000000000000000000000000000000000' coords='1978,507,2047,547' shape='rect'>
-                        <area target='_self' alt='77' title='77' href='#' onclick='highlightName(this)' labelText='0000000000000000000000000000000000000000000000000' coords='1930,593,1876,555' shape='rect'>
-                        <area target='_self' alt='78' title='78' href='#' onclick='highlightName(this)' labelText='00000000000000000000000000000000000000000000000000' coords='1996,552,2052,598' shape='rect'>
-                        <area target='_self' alt='79' title='79' href='#' onclick='highlightName(this)' labelText='000000000000000000000000000000000000000000000000000' coords='1874,598,1942,647' shape='rect'>
-                        <area target='_self' alt='80' title='80' href='#' onclick='highlightName(this)' labelText='0000000000000000000000000000000000000000000000000000' coords='2049,603,1981,644' shape='rect'>
-                        <area target='_self' alt='81' title='81' href='#' onclick='highlightName(this)' labelText='00000000000000000000000000000000000000000000000000000' coords='1874,652,1937,703' shape='rect'>
-                        <area target='_self' alt='83' title='83' href='#' onclick='highlightName(this)' labelText='0000000000000000000000000000000000000000000000000000000' coords='1986,652,2047,698' shape='rect'>
-                        <area target='_self' alt='84' title='84' href='#' onclick='highlightName(this)' labelText='00000000000000000000000000000000000000000000000000000000' coords='1869,700,1942,761' shape='rect'>
-                        <area target='_self' alt='85' title='85' href='#' onclick='highlightName(this)' labelText='000000000000000000000000000000000000000000000000000000000' coords='1981,705,2049,761' shape='rect'>
-                        <area target='_self' alt='86' title='86' href='#' onclick='highlightName(this)' labelText='0000000000000000000000000000000000000000000000000000000000' coords='2054,682,2159,782' shape='rect'>
-                        <area target='_self' alt='87' title='87' href='#' onclick='highlightName(this)' labelText='00000000000000000000000000000000000000000000000000000000000' coords='2248,626,2324,695' shape='rect'>
-                        <area target='_self' alt='88' title='88' href='#' onclick='highlightName(this)' labelText='000000000000000000000000000000000000000000000000000000000000' coords='2370,616,2433,700' shape='rect'>
-                        <area target='_self' alt='89' title='89' href='#' onclick='highlightName(this)' labelText='0000000000000000000000000000000000000000000000000000000000000' coords='2245,705,2324,777' shape='rect'>
-                        <area target='_self' alt='90' title='90' href='#' onclick='highlightName(this)' labelText='00000000000000000000000000000000000000000000000000000000000000' coords='2365,700,2433,777' shape='rect'>
-                        <area target='_self' alt='91' title='91' href='#' onclick='highlightName(this)' labelText='000000000000000000000000000000000000000000000000000000000000000' coords='1037,390,981,331' shape='rect'>
-                        <area target='_self' alt='92' title='92' href='#' onclick='highlightName(this)' labelText='0000000000000000000000000000000000000000000000000000000000000000' coords='981,405,1034,458' shape='rect'>
-                        <area target='_self' alt='93' title='93' href='#' onclick='highlightName(this)' labelText='00000000000000000000000000000000000000000000000000000000000000000' coords='983,461,1032,519' shape='rect'>
-                        <area target='_self' alt='94' title='94' href='#' onclick='highlightName(this)' labelText='' coords='1047,328,1098,390' shape='rect'>
-                        <area target='_self' alt='95' title='95' href='#' onclick='highlightName(this)' labelText='' coords='1042,400,1100,458' shape='rect'>
-                        <area target='_self' alt='96' title='96' href='#' onclick='highlightName(this)' labelText='000000000000000000000000000000000000000000000000000000000000000000' coords='1044,463,1098,519' shape='rect'>
-                        <area target='_self' alt='97' title='97' href='#' onclick='highlightName(this)' labelText='0000000000000000000000000000000000000000000000000000000000000000000' coords='1139,326,1197,392' shape='rect'>
-                        <area target='_self' alt='99' title='99' href='#' onclick='highlightName(this)' labelText='00000000000000000000000000000000000000000000000000000000000000000000' coords='1144,400,1192,458' shape='rect'>
-                        <area target='_self' alt='100' title='100' href='#' onclick='highlightName(this)' labelText='000000000000000000000000000000000000000000000000000000000000000000000' coords='1146,466,1192,522' shape='rect'>
-                        <area target='_self' alt='101' title='101' href='#' onclick='highlightName(this)' labelText='0000000000000000000000000000000000000000000000000000000000000000000000' coords='1205,326,1256,390' shape='rect'>
-                        <area target='_self' alt='102' title='102' href='#' onclick='highlightName(this)' labelText='00000000000000000000000000000000000000000000000000000000000000000000000' coords='1207,397,1258,461' shape='rect'>
-                        <area target='_self' alt='103' title='103' href='#' onclick='highlightName(this)' labelText='000000000000000000000000000000000000000000000000000000000000000000000000' coords='1200,466,1256,522' shape='rect'>
-                        <area target='_self' alt='104' title='104' href='#' onclick='highlightName(this)' labelText='0000000000000000000000000000000000000000000000000000000000000000000000000' coords='1306,321,1357,387' shape='rect'>
-                        <area target='_self' alt='105' title='105' href='#' onclick='highlightName(this)' labelText='00000000000000000000000000000000000000000000000000000000000000000000000000' coords='1301,400,1355,456' shape='rect'>
-                        <area target='_self' alt='106' title='106' href='#' onclick='highlightName(this)' labelText='000000000000000000000000000000000000000000000000000000000000000000000000000' coords='1304,463,1357,522' shape='rect'>
-                        <area target='_self' alt='107' title='107' href='#' onclick='highlightName(this)' labelText='0000000000000000000000000000000000000000000000000000000000000000000000000000' coords='1360,321,1423,390' shape='rect'>
-                        <area target='_self' alt='108' title='108' href='#' onclick='highlightName(this)' labelText='00000000000000000000000000000000000000000000000000000000000000000000000000000' coords='1365,395,1418,461' shape='rect'>
-                        <area target='_self' alt='109' title='109' href='#' onclick='highlightName(this)' labelText='000000000000000000000000000000000000000000000000000000000000000000000000000000' coords='1370,466,1416,522' shape='rect'>
-                        <area target='_self' alt='110' title='110' href='#' onclick='highlightName(this)' labelText='Tents 1' coords='480,306,551,377' shape='rect'>
-                        <area target='_self' alt='111' title='111' href='#' onclick='highlightName(this)' labelText='Tents 2' coords='558,306,625,379' shape='rect'>
-                        <area target='_self' alt='112' title='112' href='#' onclick='highlightName(this)' labelText='Tents 3' coords='632,306,698,379' shape='rect'>
-                        <area target='_self' alt='113' title='113' href='#' onclick='highlightName(this)' labelText='' coords='711,308,767,367' shape='rect'>
-                        <area target='_self' alt='114' title='114' href='#' onclick='highlightName(this)' labelText='0000000000000000000000000000000000000000000000000000000000000000000000000000000' coords='487,384,551,458' shape='rect'>
-                        <area target='_self' alt='115' title='115' href='#' onclick='highlightName(this)' labelText='' coords='564,390,620,461' shape='rect'>
-                        <area target='_self' alt='116' title='116' href='#' onclick='highlightName(this)' labelText='00000000000000000000000000000000000000000000000000000000000000000000000000000000' coords='637,390,703,461' shape='rect'>
-                        <area target='_self' alt='117' title='117' href='#' onclick='highlightName(this)' labelText='000000000000000000000000000000000000000000000000000000000000000000000000000000000' coords='711,397,772,458' shape='rect'>
-                        <area target='_self' alt='118' title='118' href='#' onclick='highlightName(this)' labelText='' coords='487,468,561,522' shape='rect'>
-                        <area target='_self' alt='119' title='119' href='#' onclick='highlightName(this)' labelText='' coords='701,468,767,524' shape='rect'>
+                        <area target='_self' alt='1' title='1' href='#' labelText='' coords='34,249,151,349' shape='rect'>
+                        <area target='_self' alt='2' title='2' href='#' labelText='' coords='39,341,146,418' shape='rect'>
+                        <area target='_self' alt='3' title='3' href='#' labelText='' coords='37,425,141,545' shape='rect'>
+                        <area target='_self' alt='4' title='4' href='#' labelText='' coords='32,545,144,680' shape='rect'>
+                        <area target='_self' alt='5' title='5' href='#' labelText='000000000000000000' coords='34,691,139,818' shape='rect'>
+                        <area target='_self' alt='6' title='6' href='#' labelText='' coords='149,950,34,817' shape='rect'>
+                        <area target='_self' alt='7' title='7' href='#' labelText='' coords='159,814,266,952' shape='rect'>
+                        <area target='_self' alt='9' title='9' href='#' labelText='' coords='268,810,342,952' shape='rect'>
+                        <area target='_self' alt='10' title='10' href='#' labelText='00000000000000000000000' coords='457,878' shape='rect'>
+                        <area target='_self' alt='11' title='11' href='#' labelText='' coords='345,815,497,945' shape='rect'>
+                        <area target='_self' alt='12' title='12' href='#' labelText='' coords='492,812,655,952' shape='rect'>
+                        <area target='_self' alt='13' title='13' href='#' labelText='' coords='696,810,876,950' shape='rect'>
+                        <area target='_self' alt='14' title='14' href='#' labelText='' coords='887,807,1021,947' shape='rect'>
+                        <area target='_self' alt='15' title='15' href='#' labelText='' coords='1029,810,1108,945' shape='rect'>
+                        <area target='_self' alt='16' title='16' href='#' labelText='' coords='1108,809,1215,949' shape='rect'>
+                        <area target='_self' alt='17' title='17' href='#' labelText='' coords='1299,708,1441,945' shape='rect'>
+                        <area target='_self' alt='18' title='18' href='#' labelText='' coords='1451,945,1670,596' shape='rect'>
+                        <area target='_self' alt='19' title='19' href='#' labelText='' coords='1782,830,1942,950' shape='rect'>
+                        <area target='_self' alt='20' title='20' href='#' labelText='' coords='1950,835,2060,947' shape='rect'>
+                        <area target='_self' alt='21' title='21' href='#' labelText='' coords='2065,827,2166,947' shape='rect'>
+                        <area target='_self' alt='22' title='22' href='#' labelText='' coords='2174,833,2283,950' shape='rect'>
+                        <area target='_self' alt='23' title='23' href='#' labelText='' coords='2286,830,2357,950' shape='rect'>
+                        <area target='_self' alt='24' title='24' href='#' labelText='' coords='2362,827,2433,945' shape='rect'>
+                        <area target='_self' alt='25' title='25' href='#' labelText='' coords='2446,825,2584,950' shape='rect'>
+                        <area target='_self' alt='26' title='26' href='#' labelText='' coords='2591,833,2668,950' shape='rect'>
+                        <area target='_self' alt='27' title='27' href='#' labelText='' coords='2670,947,2734,827' shape='rect'>
+                        <area target='_self' alt='28' title='28' href='#' labelText='' coords='2736,812,2856,945' shape='rect'>
+                        <area target='_self' alt='29' title='29' href='#' labelText='' coords='2744,672,2861,810' shape='rect'>
+                        <area target='_self' alt='30' title='30' href='#' labelText='' coords='2764,550,2871,670' shape='rect'>
+                        <area target='_self' alt='31' title='31' href='#' labelText='' coords='2433,607,2528,465' shape='rect'>
+                        <area target='_self' alt='32' title='32' href='#' onclick='openCalendar(this)' labelText='Large Conference Room' 
+                            calendarLink='https://calendar.google.com/calendar/embed?src=fireworks.com_3136353336343535353239%40resource.calendar.google.com&ctz=America%2FNew_York' coords='2622,244,2869,542' shape='rect'>
+                        <area target='_self' alt='33' title='33' href='#' labelText='' coords='2357,453,2428,616' shape='rect'>
+                        <area target='_self' alt='34' title='34' href='#' labelText='' coords='2243,453,2352,616' shape='rect'>
+                        <area target='_self' alt='35' title='35' href='#' labelText='00000000000000000000000000000000000' coords='1935,229,2060,395' shape='rect'>
+                        <area target='_self' alt='36' title='36' href='#' labelText='' coords='1683,81,1869,252' shape='rect'>
+                        <area target='_self' alt='37' title='37' href='#' labelText='' coords='1480,92,1670,244' shape='rect'>
+                        <area target='_self' alt='39' title='39' href='#' labelText='' coords='1340,87,1477,247' shape='rect'>
+                        <area target='_self' alt='40' title='40' href='#' labelText='' coords='1233,89,1327,247' shape='rect'>
+                        <area target='_self' alt='41' title='41' href='#' labelText='' coords='1599,249,1719,395' shape='rect'>
+                        <area target='_self' alt='42' title='42' href='#' labelText='' coords='1146,81,1230,255' shape='rect'>
+                        <area target='_self' alt='43' title='43' href='#' labelText='000000000000000000000000000000000000' coords='1021,130,1136,265' shape='rect'>
+                        <area target='_self' alt='45' title='45' href='#' labelText='' coords='841,94,1014,204' shape='rect'>
+                        <area target='_self' alt='46' title='46' href='#' labelText='' coords='731,82,833,160' shape='rect'>
+                        <area target='_self' alt='47' title='47' href='#' labelText='' coords='647,89,726,201' shape='rect'>
+                        <area target='_self' alt='48' title='48' href='#' labelText='' coords='541,87,650,201' shape='rect'>
+                        <area target='_self' alt='49' title='49' href='#' labelText='' coords='419,81,533,199' shape='rect'>
+                        <area target='_self' alt='50' title='50' href='#' onclick='openCalendar(this)' labelText='North Conference Room' 
+                            calendarLink='https://calendar.google.com/calendar/embed?src=fireworks.com_3130393831373030313838%40resource.calendar.google.com&ctz=America%2FNew_York' coords='263,79,413,303' shape='rect'>
+                        <area target='_self' alt='51' title='51' href='#' labelText='' coords='184,242,268,392' shape='rect'>
+                        <area target='_self' alt='52' title='52' href='#' labelText='0000000000000000000000000000000000000' coords='184,395,263,494' shape='rect'>
+                        <area target='_self' alt='53' title='53' href='#' labelText='00000000000000000000000000000000000000' coords='218,670,266,769' shape='rect'>
+                        <area target='_self' alt='54' title='54' href='#' labelText='' coords='350,593,474,698' shape='rect'>
+                        <area target='_self' alt='55' title='55' href='#' labelText='000000000000000000000000000000000000000' coords='355,705,482,769' shape='rect'>
+                        <area target='_self' alt='56' title='56' href='#' labelText='' coords='569,596,668,695' shape='rect'>
+                        <area target='_self' alt='57' title='57' href='#' labelText='00000000000000000000000000000000000000000' coords='571,700,665,761' shape='rect'>
+                        <area target='_self' alt='58' title='58' href='#' labelText='' coords='675,598,757,692' shape='rect'>
+                        <area target='_self' alt='59' title='59' href='#' labelText='' coords='663,705,757,759' shape='rect'>
+                        <area target='_self' alt='60' title='60' href='#' labelText='' coords='836,596,940,703' shape='rect'>
+                        <area target='_self' alt='61' title='61' href='#' labelText='' coords='838,710,1032,759' shape='rect'>
+                        <area target='_self' alt='62' title='62' href='#' labelText='' coords='938,593,1039,703' shape='rect'>
+                        <area target='_self' alt='64' title='64' href='#' labelText='00000000000000000000000000000000000000000000' coords='1044,601,1149,675' shape='rect'>
+                        <area target='_self' alt='65' title='65' href='#' labelText='' coords='1044,677,1149,741' shape='rect'>
+                        <area target='_self' alt='66' title='66' href='#' labelText='' coords='1182,593,1184,685,1217,687,1222,766,1294,766,1291,695,1370,692,1367,593' shape='poly'>
+                        <area target='_self' alt='67' title='67' href='#' onclick='openCalendar(this)' labelText='Executive Conference Room' 
+                            calendarLink='https://calendar.google.com/calendar/embed?src=fireworks.com_3430313734373735383134%40resource.calendar.google.com&ctz=America%2FNew_York' coords='1678,463,1869,820' shape='rect'>
+                        <area target='_self' alt='68' title='68' href='#' onclick='openCalendar(this)' labelText='Legal Conference Room' 
+                            calendarLink='https://calendar.google.com/calendar/embed?src=fireworks.com_188dinupcge6cgefh3n6d6r7tmuik6gb64r3cchk60s3ge1i70%40resource.calendar.google.com&ctz=America%2FNew_York' coords='1482,252,1591,392' shape='rect'>
+                        <area target='_self' alt='69' title='69' href='#' labelText='Legal File Room' coords='1721,255,1869,392' shape='rect'>
+                        <area target='_self' alt='70' title='70' href='#' labelText='' coords='803,308,894,415' shape='rect'>
+                        <area target='_self' alt='71' title='71' href='#' labelText='' coords='785,420,899,524' shape='rect'>
+                        <area target='_self' alt='72' title='72' href='#' labelText='' coords='759,168,836,252' shape='rect'>
+                        <area target='_self' alt='73' title='73' href='#' labelText='Customer Service (Old Art)' coords='1874,455,1973,542' shape='rect'>
+                        <area target='_self' alt='74' title='74' href='#' labelText='0000000000000000000000000000000000000000000000' coords='1978,458,2049,502' shape='rect'>
+                        <area target='_self' alt='75' title='75' href='#' labelText='00000000000000000000000000000000000000000000000' coords='1978,507,2047,547' shape='rect'>
+                        <area target='_self' alt='77' title='77' href='#' labelText='0000000000000000000000000000000000000000000000000' coords='1930,593,1876,555' shape='rect'>
+                        <area target='_self' alt='78' title='78' href='#' labelText='00000000000000000000000000000000000000000000000000' coords='1996,552,2052,598' shape='rect'>
+                        <area target='_self' alt='79' title='79' href='#' labelText='000000000000000000000000000000000000000000000000000' coords='1874,598,1942,647' shape='rect'>
+                        <area target='_self' alt='80' title='80' href='#' labelText='0000000000000000000000000000000000000000000000000000' coords='2049,603,1981,644' shape='rect'>
+                        <area target='_self' alt='81' title='81' href='#' labelText='00000000000000000000000000000000000000000000000000000' coords='1874,652,1937,703' shape='rect'>
+                        <area target='_self' alt='83' title='83' href='#' labelText='0000000000000000000000000000000000000000000000000000000' coords='1986,652,2047,698' shape='rect'>
+                        <area target='_self' alt='84' title='84' href='#' labelText='00000000000000000000000000000000000000000000000000000000' coords='1869,700,1942,761' shape='rect'>
+                        <area target='_self' alt='85' title='85' href='#' labelText='000000000000000000000000000000000000000000000000000000000' coords='1981,705,2049,761' shape='rect'>
+                        <area target='_self' alt='86' title='86' href='#' labelText='0000000000000000000000000000000000000000000000000000000000' coords='2054,682,2159,782' shape='rect'>
+                        <area target='_self' alt='87' title='87' href='#' labelText='00000000000000000000000000000000000000000000000000000000000' coords='2248,626,2324,695' shape='rect'>
+                        <area target='_self' alt='88' title='88' href='#' labelText='000000000000000000000000000000000000000000000000000000000000' coords='2370,616,2433,700' shape='rect'>
+                        <area target='_self' alt='89' title='89' href='#' labelText='0000000000000000000000000000000000000000000000000000000000000' coords='2245,705,2324,777' shape='rect'>
+                        <area target='_self' alt='90' title='90' href='#' labelText='00000000000000000000000000000000000000000000000000000000000000' coords='2365,700,2433,777' shape='rect'>
+                        <area target='_self' alt='91' title='91' href='#' labelText='000000000000000000000000000000000000000000000000000000000000000' coords='1037,390,981,331' shape='rect'>
+                        <area target='_self' alt='92' title='92' href='#' labelText='0000000000000000000000000000000000000000000000000000000000000000' coords='981,405,1034,458' shape='rect'>
+                        <area target='_self' alt='93' title='93' href='#' labelText='00000000000000000000000000000000000000000000000000000000000000000' coords='983,461,1032,519' shape='rect'>
+                        <area target='_self' alt='94' title='94' href='#' labelText='' coords='1047,328,1098,390' shape='rect'>
+                        <area target='_self' alt='95' title='95' href='#' labelText='' coords='1042,400,1100,458' shape='rect'>
+                        <area target='_self' alt='96' title='96' href='#' labelText='000000000000000000000000000000000000000000000000000000000000000000' coords='1044,463,1098,519' shape='rect'>
+                        <area target='_self' alt='97' title='97' href='#' labelText='0000000000000000000000000000000000000000000000000000000000000000000' coords='1139,326,1197,392' shape='rect'>
+                        <area target='_self' alt='99' title='99' href='#' labelText='00000000000000000000000000000000000000000000000000000000000000000000' coords='1144,400,1192,458' shape='rect'>
+                        <area target='_self' alt='100' title='100' href='#' labelText='000000000000000000000000000000000000000000000000000000000000000000000' coords='1146,466,1192,522' shape='rect'>
+                        <area target='_self' alt='101' title='101' href='#' labelText='0000000000000000000000000000000000000000000000000000000000000000000000' coords='1205,326,1256,390' shape='rect'>
+                        <area target='_self' alt='102' title='102' href='#' labelText='00000000000000000000000000000000000000000000000000000000000000000000000' coords='1207,397,1258,461' shape='rect'>
+                        <area target='_self' alt='103' title='103' href='#' labelText='000000000000000000000000000000000000000000000000000000000000000000000000' coords='1200,466,1256,522' shape='rect'>
+                        <area target='_self' alt='104' title='104' href='#' labelText='0000000000000000000000000000000000000000000000000000000000000000000000000' coords='1306,321,1357,387' shape='rect'>
+                        <area target='_self' alt='105' title='105' href='#' labelText='00000000000000000000000000000000000000000000000000000000000000000000000000' coords='1301,400,1355,456' shape='rect'>
+                        <area target='_self' alt='106' title='106' href='#' labelText='000000000000000000000000000000000000000000000000000000000000000000000000000' coords='1304,463,1357,522' shape='rect'>
+                        <area target='_self' alt='107' title='107' href='#' labelText='0000000000000000000000000000000000000000000000000000000000000000000000000000' coords='1360,321,1423,390' shape='rect'>
+                        <area target='_self' alt='108' title='108' href='#' labelText='00000000000000000000000000000000000000000000000000000000000000000000000000000' coords='1365,395,1418,461' shape='rect'>
+                        <area target='_self' alt='109' title='109' href='#' labelText='000000000000000000000000000000000000000000000000000000000000000000000000000000' coords='1370,466,1416,522' shape='rect'>
+                        <area target='_self' alt='110' title='110' href='#' labelText='Tents 1' coords='480,306,551,377' shape='rect'>
+                        <area target='_self' alt='111' title='111' href='#' labelText='Tents 2' coords='558,306,625,379' shape='rect'>
+                        <area target='_self' alt='112' title='112' href='#' labelText='Tents 3' coords='632,306,698,379' shape='rect'>
+                        <area target='_self' alt='113' title='113' href='#' labelText='' coords='711,308,767,367' shape='rect'>
+                        <area target='_self' alt='114' title='114' href='#' labelText='0000000000000000000000000000000000000000000000000000000000000000000000000000000' coords='487,384,551,458' shape='rect'>
+                        <area target='_self' alt='115' title='115' href='#' labelText='' coords='564,390,620,461' shape='rect'>
+                        <area target='_self' alt='116' title='116' href='#' labelText='00000000000000000000000000000000000000000000000000000000000000000000000000000000' coords='637,390,703,461' shape='rect'>
+                        <area target='_self' alt='117' title='117' href='#' labelText='000000000000000000000000000000000000000000000000000000000000000000000000000000000' coords='711,397,772,458' shape='rect'>
+                        <area target='_self' alt='118' title='118' href='#' labelText='' coords='487,468,561,522' shape='rect'>
+                        <area target='_self' alt='119' title='119' href='#' labelText='' coords='701,468,767,524' shape='rect'>
+                    </map>
+                </div>
+
+                <div id='floor2-tornado' style='display: none'>
+                    <img id='floor2-tornado-img' class='base-img' src='https://i.imgur.com/YIBHUHr.png' usemap='#floor2-tornado-map'>
+                    <map id='floor2-tornado-map' style='visibility: hidden;' name='floor2-tornado-map'>
+                        <area target='_self' floor='2' alt='A' title='A' href='#' onclick='highlightShelter(this)' labelText='Section A' coords='34,249,261,252,261,532,1713,522,1711,952,34,945' shape='poly'>
+                        <area target='_self' floor='2' alt='B' title='B' href='#' onclick='highlightShelter(this)' labelText='Section B' coords='263,74,1141,527' shape='rect'>
+                        <area target='_self' floor='2' alt='C' title='C' href='#' onclick='highlightShelter(this)' labelText='Section C' coords='1131,77,1136,529,1715,522,1715,457,1876,454,1876,77' shape='poly'>
+                        <area target='_self' floor='2' alt='D' title='D' href='#' onclick='highlightShelter(this)' labelText='Section D' coords='1876,76,1876,453,2253,453,2250,619,2433,616,2435,777,2579,779,2584,950,2866,945,2866,244,2637,234,2634,81' shape='poly'>
+                        <area target='_self' floor='2' alt='E' title='E' href='#' onclick='highlightShelter(this)' labelText='Section E' coords='1715,458,2250,458,2253,616,2438,610,2432,780,2583,780,2580,950,1715,947' shape='poly'>
+                        <area target='_self' floor='2' alt='A' title='A' href='#' labelText='A Shelter' coords='266,591,349,758' shape='rect'>
+                        <area target='_self' floor='2' alt='B' title='B' href='#' labelText='B Shelter' coords='256,68,414,306' shape='rect'>
+                        <area target='_self' floor='2' alt='C' title='C' href='#' labelText='C Shelter' coords='1721,245,1876,396' shape='rect'>
+                        <area target='_self' floor='2' alt='D' title='D' href='#' labelText='D Shelter' coords='2441,75,2627,269' shape='rect'>
+                        <area target='_self' floor='2' alt='E' title='E' href='#' labelText='E Shelter' coords='1678,455,1870,826' shape='rect'>
                     </map>
                 </div>
             </div>
         </div>
     </div>
-
+    <div id='calendar-container'>
+        <div id='close-container'>
+            <p>Google Calendar</p>
+            <svg onclick='closeCalendar()' class='close-button' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' 
+                version='1.1' id='Capa_1' x='0px' y='0px' viewBox='0 0 460.775 460.775' xml:space='preserve'
+                height='20' width='20'>
+                <path d='M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55  
+                c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55  
+                c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505  
+                c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55  
+                l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719  
+                c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z'/>
+            </svg>
+        </div>
+        <iframe id='calendar-frame' src='' title='Google Calendar'></iframe>
+    </div>
     <div id='directories-cotainer'>
         <div class='top-row'>
+            <div class='search-box'>
+                <p>Search:</p>
+                <input id='search-bar' placeholder='Enter Name, Department, or Extension...' type='text' />
+            </div>
             <div class='sheet-container'>
                 <h4>Clickable Directory</h4>
-                <div id='scrollable-directory' class='directory'>
+                <div class='tooltip-parent'>
+                    <div class='tooltip'>
+                        <svg xmlns='http://www.w3.org/2000/svg' class='question-mark-svg' 
+                        viewBox='0 0 1024 1024' version='1.1' style='height: 25px; width: 25px;'>
+                            <path d='M512 85.333333a426.666667 426.666667 0 1 0 426.666667 426.666667A426.666667 426.666667 
+                            0 0 0 512 85.333333z m0 768a341.333333 341.333333 0 1 1 341.333333-341.333333 341.333333 341.333333 
+                            0 0 1-341.333333 341.333333z'/>
+                            <path d='M512 256a149.333333 149.333333 0 0 0-149.333333 149.333333 42.666667 42.666667 0 0 0 85.333333 
+                            0A64 64 0 1 1 512 469.333333a42.666667 42.666667 0 0 0-42.666667 42.666667v85.333333a42.666667 42.666667 
+                            0 0 0 85.333334 0v-49.493333A148.906667 148.906667 0 0 0 512 256z'/>
+                            <path d='M512 725.333333m-42.666667 0a42.666667 42.666667 0 1 0 85.333334 0 42.666667 42.666667 
+                            0 1 0-85.333334 0Z'/>
+                        </svg>
+                        <span class='tooltiptext'>
+                            <h3>How to use the directory:</h3>
+                            <ul>
+                                <li>
+                                    Use the search bar above to search for a name, department, or extension
+                                </li> 
+                                <li>
+                                    Click on a name to highlight the office in the map above (<i>Note: If the name can't be clicked, we don't know which office is theirs.
+                                    please send an email to jgraygo@fireworks.com with the name, floor, and office number according to the map above</i>)
+                                </li>
+                                <li>
+                                    Click on the phone icon to call them directly from your computer (<i>Note: This requires Webex to work properly</i>)
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
                 </div>
-            </div>
-            <div class='sheet-container'>
-                <h4>Directory By Department</h4>
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 512 512" enable-background="new 0 0 512 512"
+                    onclick='printDirectory()'>
+                    <g>
+                      <g>
+                        <path d="m480.6,207.7h-112.3v-114c0-5.3-2.1-10.4-5.7-14.2l-60.2-62.3c-3.8-4-9.2-6.2-14.7-6.2h-128.7c-11.3,0-20.4,9.1-20.4,20.4v176.3h-107.2c-11.3,0-20.4,9.1-20.4,20.4v193c0,11.3 
+                        9.1,20.4 20.4,20.4h45.9v39c0,11.3 9.1,20.4 20.4,20.4h325c11.3,0 20.4-9.1 20.4-20.4v-39h37.4c11.3,0 
+                        20.4-9.1 20.4-20.4v-193c0.1-11.2-9-20.4-20.3-20.4zm-301.2-155.9h99.6l48.4,50.1v105.8h-148v-155.9zm222.9,
+                        408.4h-284.1v-70.6h284.1v70.6zm57.9-59.4h-17v-31.6c0-11.3-9.1-20.4-20.4-20.4h-325c-11.3,0-20.4,9.1-20.4,20.4v31.6h-25.6v-152.2h408.3v152.2z"/>
+                        <circle cx="399.8" cy="293.6" r="21.4"/>
+                      </g>
+                    </g>
+                  </svg>
                 <div id='department-directory' class='directory'>
                 </div>
-            </div>
-        </div>
-        <div class='bottom-row'>
-            <h4>Store Directory</h4>
-            <div class='store-directory directory'>
             </div>
         </div>
     </div>
@@ -558,52 +953,42 @@
     /////////////////////////// END UTILITES ///////////////////////////
 
     /////////////////////////// RENDERERS ///////////////////////////
-    // Renders the clickable directory by making a request to the custom api and building
-    // the required elements
-    const renderClickableDir = async () => {
-        
-        // Get data from the api and parse into a JSON object
-        const response = await fetch('https://fireworks-directory-api.herokuapp.com/api/extension_directory');
-        const json = await response.json();
+    const apiBaseUrl = 'https://fireworks-directory-api.herokuapp.com'; // Base URL of the API
 
-        // Create the base elements
-        const table = document.createElement('table');
-        const header = document.createElement('tr');
-        header.innerHTML = '<th>Name</th><th>EXT.</th>'
+    // Opens the system dialer to call the extension passed in
+    // If there is more than one extension in the string passed,
+    // it defaults to calling the first one
+    const callExtension = ext => {
+        let firstExt = ext;
+        if (ext.search(' ') !== -1)
+            firstExt = ext.substring(0, ext.search(' '));
+        window.open(`tel:${firstExt}`);
+    };
 
-        // Build the array of table rows
-        const rowArr = [header];
-        for (const key in json) {
-            const row = document.createElement('tr');
-            row.setAttribute('onclick', 'highlightOffice(this)');
-            row.setAttribute('class', json[key].mappable ? 'clickable' : '');
-            row.setAttribute('style', json[key].bold ? 'font-weight: bold' : '');
-            row.id = key.toLowerCase().replaceAll(' ', '_');
-            row.innerHTML = `<td>${key}</td><td>${json[key].extension}</td>`;
-            rowArr.push(row);
-        }
+    // Generate the svg required for each element below
+    const generateSvg = ext => {
+        const phoneSvg = `<svg extension='${ext}' class='phone-svg' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' 
+                            id='Capa_1' x='0px' y='0px' width='20px' height='20px' viewBox='0 0 891.024 891.024' style='enable-background:new 0 0 891.024 891.024;' xml:space='preserve'
+                            alt='Call them'>
+                            <g>
+                                <path d='M2.8,180.875c46.6,134,144.7,286.2,282.9,424.399c138.2,138.2,290.4,236.301,424.4,282.9c18.2,6.3,38.3,1.8,52-11.8   
+                                l92.7-92.7l21.6-21.6c19.5-19.5,19.5-51.2,0-70.7l-143.5-143.4c-19.5-19.5-51.2-19.5-70.7,0l-38.899,38.9   
+                                c-20.2,20.2-52.4,22.2-75,4.6c-44.7-34.8-89-73.899-131.9-116.8c-42.9-42.9-82-87.2-116.8-131.9c-17.601-22.6-15.601-54.7,4.6-75   
+                                l38.9-38.9c19.5-19.5,19.5-51.2,0-70.7l-143.5-143.5c-19.5-19.5-51.2-19.5-70.7,0l-21.6,21.6l-92.7,92.7   
+                                C1,142.575-3.5,162.675,2.8,180.875z'/>
+                            </g>
+                        </svg>`
+        return phoneSvg;
+    };
 
-        // Append each table row to the created table
-        for (let i = 0; i < rowArr.length; i++) {
-            table.appendChild(rowArr[i]);
-        }
-
-        // Append table to the correct div
-        document.getElementById('scrollable-directory').appendChild(table);
-    }
-
-    // Renders the directory by department by making a request to the custom api, sorting first alphabetically,
+    // Renders the directory by department from the passed json object, sorting first alphabetically,
     // then by number of people in the department, then by whether their name should be bolded. Bolded names appear
     // at the top of each department
-    const renderDepartmentDirectory = async () => {
-        
-        // Get data from the api and parse into a JSON object
-        const response = await fetch('https://fireworks-directory-api.herokuapp.com/api/by_department');
-        const json = await response.json();
+    const renderDepartmentDirectory = async (json, forPrint) => {
 
         // Sort the departments alphabetically and then by number
         // of people in the department
-        const alphabetical = Object.keys(json).sort().sort(
+        let alphabetical = Object.keys(json).sort().sort(
             (keyA, keyB) => {
                 return Object.keys(json[keyB]).length - Object.keys(json[keyA]).length
             }
@@ -617,7 +1002,8 @@
 
         // Sort each department alphabetically and then by whether
         // the name should be in bold
-        const keys = Object.keys(alphabetical);
+        let keys = Object.keys(alphabetical);
+        const tempObj = {}
         for (const index in keys) {
             const departmentObj = alphabetical[keys[index]];
             const sortedDepartmentObj = Object.keys(departmentObj).sort().sort(
@@ -627,52 +1013,79 @@
                     else return 0;
                 }
             ).reduce(
-                (obj, key) => { 
-                    obj[key] = departmentObj[key]; 
+                (obj, key) => {
+                    if (!departmentObj[key].hidden || departmentObj[key].hidden === undefined) {
+                        obj[key] = departmentObj[key]; 
+
+                    }
                     return obj;
                 }, 
                 {}
             );
-            alphabetical[keys[index]] = sortedDepartmentObj;
+            if (Object.keys(sortedDepartmentObj).length !== 0) {
+                tempObj[keys[index]] = sortedDepartmentObj;
+            }
         }
+        alphabetical = tempObj;
+        keys = Object.keys(alphabetical);
 
         // Group the keys in groups of 3 to render the table
         let tempArr = [];
         const groupedKeysArr = [];
-        for (let i = 0; i < keys.length; i++) {
+        let i;
+        for (i = 0; i < keys.length; i++) {
             if (i % 3 === 0 && i != 0) {
                 groupedKeysArr.push(tempArr);
                 tempArr = [];
             }
             tempArr.push(keys[i]);
         }
+        if (i === keys.length) groupedKeysArr.push(tempArr);
 
         // Create the table rows and populate with data
         const tableArr = [];
         groupedKeysArr.map(header => {
             const headerHTML = document.createElement('tr');
             headerHTML.innerHTML = `
-                <th class=${header[0].toLowerCase().replaceAll(' ', '_').replaceAll('&', 'and').replaceAll('\'', '')}>${header[0]}</th>
-                <th class=${header[1].toLowerCase().replaceAll(' ', '_').replaceAll('&', 'and').replaceAll('\'', '')}>${header[1]}</th>
-                <th class=${header[2].toLowerCase().replaceAll(' ', '_').replaceAll('&', 'and').replaceAll('\'', '')}>${header[2]}</th>
+                ${header[0] !== '' && header[0] !== undefined ? `<th class=${header[0].toLowerCase().replaceAll(' ', '_').replaceAll('&', 'and').replaceAll('\'', '')}>${header[0]}</th>` : ''}
+                ${header[1] !== '' && header[1] !== undefined ? `<th class=${header[1].toLowerCase().replaceAll(' ', '_').replaceAll('&', 'and').replaceAll('\'', '')}>${header[1]}</th>` : ''}
+                ${header[2] !== '' && header[2] !== undefined ? `<th class=${header[2].toLowerCase().replaceAll(' ', '_').replaceAll('&', 'and').replaceAll('\'', '')}>${header[2]}</th>` : ''}
             `;
             tableArr.push(headerHTML);
             const header0List = alphabetical[header[0]];
             const header1List = alphabetical[header[1]];
             const header2List = alphabetical[header[2]];
-            const max = Math.max(Object.keys(header0List).length, Object.keys(header1List).length, Object.keys(header2List).length)
+            const max = Math.max(
+                (header0List !== undefined ? Object.keys(header0List).length : 0), 
+                (header1List !== undefined ? Object.keys(header1List).length : 0), 
+                (header2List !== undefined ? Object.keys(header2List).length : 0)
+            )
             for (let i = 0; i < max; i++) {
                 const row = document.createElement('tr');
+                const class0 = header[0]?.toLowerCase().replaceAll(' ', '_').replaceAll('&', 'and').replaceAll('\'', '');
+                const class1 = header[1]?.toLowerCase().replaceAll(' ', '_').replaceAll('&', 'and').replaceAll('\'', '');
+                const class2 = header[2]?.toLowerCase().replaceAll(' ', '_').replaceAll('&', 'and').replaceAll('\'', '');
                 row.innerHTML = `
-                    <td class='${header[0].toLowerCase().replaceAll(' ', '_').replaceAll('&', 'and').replaceAll('\'', '')}' 
-                    style='${header0List[Object.keys(header0List)[i]]?.bold ? 'font-weight: bold' : ''}'>${Object.keys(header0List)[i] ? 
-                        header0List[Object.keys(header0List)[i]].extension + ' - ' + Object.keys(header0List)[i] : ''}</td>
-                    <td class='${header[1].toLowerCase().replaceAll(' ', '_').replaceAll('&', 'and').replaceAll('\'', '')}' 
-                    style='${header1List[Object.keys(header1List)[i]]?.bold ? 'font-weight: bold' : ''}'>${Object.keys(header1List)[i] ? 
-                        header1List[Object.keys(header1List)[i]].extension + ' - ' + Object.keys(header1List)[i] : ''}</td>
-                    <td class='${header[2].toLowerCase().replaceAll(' ', '_').replaceAll('&', 'and').replaceAll('\'', '')}' 
-                    style='${header2List[Object.keys(header2List)[i]]?.bold ? 'font-weight: bold' : ''}'>${Object.keys(header2List)[i] ? 
-                        header2List[Object.keys(header2List)[i]].extension + ' - ' + Object.keys(header2List)[i] : ''}</td>
+                    ${header0List !== undefined ? `<td ${(header0List[Object.keys(header0List)[i]]?.mappable ? `person='${Object.keys(header0List)[i].toLowerCase().replaceAll(' ', '_')}'
+                        class='clickable ${class0} person-data'` : `class='${class0} person-data'`)}
+                        style='${header0List[Object.keys(header0List)[i]]?.bold ? 'font-weight: bold' : ''}'>
+                        ${Object.keys(header0List)[i] ? header0List[Object.keys(header0List)[i]].extension + ' - ' + Object.keys(header0List)[i] : ''} 
+                        ${Object.keys(header0List)[i] && !forPrint ? generateSvg(header0List[Object.keys(header0List)[i]].extension) : ''}
+                    </td>` : ''}
+
+                    ${header1List !== undefined ? `<td ${(header1List[Object.keys(header1List)[i]]?.mappable ? `person='${Object.keys(header1List)[i].toLowerCase().replaceAll(' ', '_')}'
+                        class='clickable ${class1} person-data'` : `class='${class1} person-data'`)}
+                        style='${header1List[Object.keys(header1List)[i]]?.bold ? 'font-weight: bold' : ''}'>
+                        ${Object.keys(header1List)[i] ? header1List[Object.keys(header1List)[i]].extension + ' - ' + Object.keys(header1List)[i] : ''}
+                        ${Object.keys(header1List)[i] && !forPrint ? generateSvg(header1List[Object.keys(header1List)[i]].extension) : ''}
+                    </td>` : ''}
+
+                    ${header2List !== undefined ? `<td ${(header2List[Object.keys(header2List)[i]]?.mappable ? `person='${Object.keys(header2List)[i].toLowerCase().replaceAll(' ', '_')}'
+                        class='clickable ${class2} person-data'` : `class='${class2} person-data'`)}
+                        style='${header2List[Object.keys(header2List)[i]]?.bold ? 'font-weight: bold' : ''}'>
+                        ${Object.keys(header2List)[i] ? header2List[Object.keys(header2List)[i]].extension + ' - ' + Object.keys(header2List)[i] : ''}
+                        ${Object.keys(header2List)[i] && !forPrint ? generateSvg(header2List[Object.keys(header2List)[i]].extension) : ''}
+                    </td>` : ''}
                 `;
                 tableArr.push(row);
             }
@@ -680,49 +1093,14 @@
 
         // Create the table element and append the rows
         const table = document.createElement('table');
+        table.id = 'corporate-directory'
         for (let i = 0; i < tableArr.length; i++) {
             table.appendChild(tableArr[i]);
         }
 
         // Append the table to the proper div
-        document.getElementById('department-directory').appendChild(table);
-    }
-
-    // Renders the showroom directory by making a request to the custom api and building the
-    // required elements
-    const renderShowroomDir = async () => {
-        
-        // Get data from the api and parse into a JSON object
-        const response = await fetch('https://fireworks-directory-api.herokuapp.com/api/store_directory');
-        const json = await response.json();
-
-        // Create base elements
-        const table = document.createElement('table');
-        const header = document.createElement('tr');
-        header.innerHTML = '<th>Showroom</th><th>Address</th><th>City</th><th>State</th><th>Zip</th><th>Phone</th>'
-
-        // Create the rows populated with data and push onto the array
-        const rowArr = [header];
-        for (const key in json) {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                            <td class='left-align'>${key}</td>
-                            <td>${json[key].address}</td>
-                            <td>${json[key].city}</td>
-                            <td>${json[key].state}</td>
-                            <td>${json[key].zip}</td>
-                            <td>${json[key].phone}</td>
-                            `;
-            rowArr.push(row);
-        }
-
-        // Append each row to the table element
-        for (let i = 0; i < rowArr.length; i++) {
-            table.appendChild(rowArr[i]);
-        }
-
-        // Append the table to the proper div
-        document.querySelector('.store-directory.directory').appendChild(table);
+        if(!forPrint) document.getElementById('department-directory').appendChild(table);
+        else return table;
     }
 
     // Assigns names to each of the offices by first determining the floor they are on and thus which map area to choose
@@ -730,7 +1108,7 @@
     const assignOffices = async () => {
         
         // Get data from the api and parse into a JSON object
-        const response = await fetch('https://fireworks-directory-api.herokuapp.com/api/office_mapping');
+        const response = await fetch(apiBaseUrl + '/api/office_mapping');
         const json = await response.json();
 
         // Find the proper map, select the correct map area, and change the labelText attribute
@@ -739,6 +1117,7 @@
         for (const key in json) {
             const map = document.getElementById(`by-office${json[key].floor === '1' ? '1' : ''}`);
             map.querySelector(`area[title='${json[key].office}']`).setAttribute('labelText', toTitleCase(key));
+            map.querySelector(`area[title='${json[key].office}']`).setAttribute('onclick', 'highlightName(this)');
             map.querySelector(`area[title='${json[key].office}']`).setAttribute('autoAssigned', true);
         }
     }
@@ -807,6 +1186,8 @@
             image2 = $('#floor2-department-img'),
             image3 = $('#floor1-office-img'),
             image4 = $('#floor2-office-img'),
+            image5 = $('#floor1-tornado-img'),
+            image6 = $('#floor2-tornado-img'),
             imgWidth1 = image1.width(),
             imgHeight1 = image1.height(),
             imgWidth2 = image2.width(),
@@ -815,6 +1196,10 @@
             imgHeight3 = image3.height(),
             imgWidth4 = image4.width(),
             imgHeight4 = image4.height(),
+            imgWidth5 = image5.width(),
+            imgHeight5 = image5.height(),
+            imgWidth6 = image6.width(),
+            imgHeight6 = image6.height(),
             newWidth1=0,
             newHeight1=0,
             newWidth2=0,
@@ -822,7 +1207,11 @@
             newWidth3=0,
             newHeight3=0,
             newWidth4=0,
-            newHeight4=0;
+            newHeight4=0,
+            newWidth5=0,
+            newHeight5=0,
+            newWidth6=0,
+            newHeight6=0;
 
         const maxWidth1 = $(image1).parent().parent().parent().width();
         const maxHeight1 = $(image1).parent().parent().parent().height();
@@ -853,10 +1242,24 @@
             newHeight4 = maxHeight2;
         }
 
+        if (imgWidth5/maxWidth1>imgHeight5/maxHeight1) {
+            newWidth5 = maxWidth1;
+        } else {
+            newHeight5 = maxHeight1;
+        }
+
+        if (imgWidth6/maxWidth2>imgHeight6/maxHeight2) {
+            newWidth6 = maxWidth2;
+        } else {
+            newHeight6 = maxHeight2;
+        }
+
         image1.mapster('resize',newWidth1,newHeight1,resizeTime);   
         image2.mapster('resize',newWidth2,newHeight2,resizeTime); 
         image3.mapster('resize',newWidth3,newHeight3,resizeTime);   
-        image4.mapster('resize',newWidth4,newHeight4,resizeTime);    
+        image4.mapster('resize',newWidth4,newHeight4,resizeTime); 
+        image5.mapster('resize',newWidth5,newHeight5,resizeTime);   
+        image6.mapster('resize',newWidth6,newHeight6,resizeTime);   
     }
 
     // Track window resizing events, but only actually call the map resize when the
@@ -880,6 +1283,7 @@
         }, resizeDelay);
     }
 
+    // Bind onWindowResize to the resize event on the window
     $(window).bind('resize',onWindowResize);
 
     /////////////////////////// END RESPONSIVENESS ///////////////////////////
@@ -887,31 +1291,103 @@
     /////////////////////////// FUNCTIONALITY ///////////////////////////
 
     // Initialize vars
-    let liveSpan; // For tracking which text is currently displayed on the map
+    let liveSpans = []; // For tracking which text is currently displayed on the map
     let clicked = false; // For tracking whether an element was clicked to highlight a specific area
                          // this is then used to determine whether to actually highlight on mouseover
                          // or wait for the highlight event triggered to run its course
+    let highlightTime = 7000; // The amount of time something (office, name, etc.) should be highlighted
+                              // in ms
 
     // Handle switching which map is currently being used
     const handleMapSwitch = el => {
-        const thisId = el.id;
-        const otherButtonId = thisId === 'department' ? 'office' : 'department';
+        const thisId = $(el).attr('id');
 
-        if (!el.classList.contains('active')) el.classList.add('active');
-        document.getElementById(otherButtonId).classList.remove('active');
+        if (thisId !== 'emergencies') {
+            $('#emergencies-dropdown').css('height', '0px');
+            if (!$(el).hasClass('active')) $(el).addClass('active');
+            $(`button:not(#${thisId})`).removeClass('active');
+            const otherButtonId = thisId === 'department' ? 'office' : 'department';
+
+            $(`#floor1-tornado`).hide();
+            $(`#floor2-tornado`).hide();
+            $(`#floor1-fire`).hide();
+            $(`#floor2-fire`).hide();
+
+            $(`#floor1-${thisId}`).show();
+            $(`#floor2-${thisId}`).show();
+            $(`#floor1-${otherButtonId}`).hide();
+            $(`#floor2-${otherButtonId}`).hide();
+
+            // Run twice because the first resize is sometimes incorrect, but second is always correct
+            onWindowResize();
+            onWindowResize();
+        }
+        else {
+            if ($('#emergencies-dropdown').css('height') === '0px') $('#emergencies-dropdown').css('height', '4rem');
+            else $('#emergencies-dropdown').css('height', '0px');
+        }
+    };
+
+    // Handle switching to the emergency maps
+    const switchToEmergency = el => {
+        $(`#floor1-office`).hide();
+        $(`#floor2-office`).hide();
+        $(`#floor1-department`).hide();
+        $(`#floor2-department`).hide();
+
+        const thisId = $(el).attr('id');
+        const otherMapId = thisId === 'fire' ? 'tornado' : 'fire';
+
         $(`#floor1-${thisId}`).show();
         $(`#floor2-${thisId}`).show();
-        $(`#floor1-${otherButtonId}`).hide();
-        $(`#floor2-${otherButtonId}`).hide();
+        $(`#floor1-${otherMapId}`).hide();
+        $(`#floor2-${otherMapId}`).hide();
+
+        $('button:not(#emergencies)').removeClass('active');
+        $(`#${otherMapId}`).removeClass('active');
+        $('#emergencies').addClass('active');
+        $(`#${thisId}`).addClass('active');
 
         // Run twice because the first resize is sometimes incorrect, but second is always correct
         onWindowResize();
         onWindowResize();
     };
 
+    // Handle highlighting the relavant emergency shelter(s) on the map
+    const highlightShelter = el => {
+        if (!clicked) {
+            const floor = $(el).attr('floor');
+            const title = $(el).attr('title');
+            const labelText = $(el).attr('labelText');
+
+            // Select the area
+            const area = $(`area[floor='${floor}'][title='${title}']:not(area[labelText='${labelText}']) ${floor === '1' ? ', area[labelText*=\'Overflow Shelter\'' : ''}`);
+
+            // Trigger the mouseover event and then trigger the mouseout event after a set time
+            // This highlights the map area
+            setTimeout(() => {
+                if (!clicked) {
+                    if(liveSpans !== [] && liveSpans) for (let i = 0; i < liveSpans.length; i++) liveSpans[i].remove();
+                    area.trigger('mouseover');
+                    clicked = true;
+                    area.mapster('set', false).mapster('set', true);
+                }
+            }, 50)
+            setTimeout(() => {
+                clicked = false;
+                area.trigger('mouseout');
+                area.mapster('set', false);
+                if(liveSpans !== [] && liveSpans) for (let i = 0; i < liveSpans.length; i++) liveSpans[i].remove();
+            }, highlightTime + 50);
+        }
+    };
+
     // Onclick function to handle highlighting the relavant department in the by department
     // directory
     const highlightRelevantDepartment = el => {
+        $('#search-bar').val('');
+        $('#search-bar').trigger('keyup');
+        
         let departmentEls;
         let labelText = el.getAttribute('labelText').toLowerCase().replaceAll(' ', '_').replaceAll('&', 'and').replaceAll('\'', '');
 
@@ -926,7 +1402,7 @@
             labelText = 'importing_and_products';
         }
         else if (labelText.search('accounting') !== -1) {
-            labelText = 'accounting';
+            labelText = 'accounting_-_general';
         }
         else if (labelText.search('legal') !== -1) {
             labelText = 'legal_department';
@@ -951,12 +1427,53 @@
             departmentEls[i].style.backgroundColor = 'yellow';
             setTimeout(() => {
                 departmentEls[i].style.backgroundColor = 'white';
-            }, 2000);
+            }, highlightTime);
             setTimeout(() => {
                 departmentEls[i].style.transition = '';
-            }, 2500);
+            }, highlightTime + 500);
         }
         return;
+    };
+
+    // Click handler to determine the targeted element of the click
+    const directoryClickHandler = e => {
+        if (e.target.tagName.toLowerCase() === 'td') {
+            const person = toTitleCase($(e.target).attr('person') ? $(e.target).attr('person').replaceAll('_', ' ') : '');
+            if (person !== '') highlightOffice(person);
+        }
+        else if (e.target.tagName.toLowerCase() === 'path') {
+            const svg = $(e.target).parent().parent();
+            const extension = $(svg).attr('extension');
+            callExtension(extension);
+        }
+        else if (e.target.tagName.toLowerCase() === 'g') {
+            const svg = $(e.target).parent();
+            const extension = $(svg).attr('extension');
+            callExtension(extension);
+        }
+        else if (e.target.tagName.toLowerCase() === 'svg') {
+            const extension = $(e.target).attr('extension');
+            callExtension(extension);
+        }
+    };
+
+    // Makes the SVG phone icon grow and shrink on mouseover and mouseout respectively
+    const svgMouseOverHandler = e => {
+        const svg = e.target.tagName.toLowerCase() === 'svg' ? $(e.target) : $(e.target).parent().parent();
+        $(svg).css('height', '30px');
+        $(svg).css('width', '30px');
+        $(svg).css('bottom', '1px');
+        $(svg).css('fill', '#9900ff');
+        $(svg).css('background', 'none');
+    };
+
+    const svgMouseOutHandler = e => {
+        const svg = e.target.tagName.toLowerCase() === 'svg' ? $(e.target) : $(e.target).parent().parent();
+        $(svg).css('height', '20px');
+        $(svg).css('width', '20px');
+        $(svg).css('bottom', '6px');
+        $(svg).css('fill', 'white');
+        $(svg).css('background', '#9900ff');
     };
 
     // Onclick function to handle highlighting the targeted name when a specific office is clicked
@@ -965,84 +1482,180 @@
         // Convert labelText into the assumed ID
         let labelText = el.getAttribute('labelText').toLowerCase().replaceAll(' ', '_');
 
+        $('#search-bar').val(el.getAttribute('labelText'));
+        $('#search-bar').trigger('keyup');
+
         // If the labelText isn't an empty string (unassigned or unknown office)
         // Then scroll into view and highlight on the clickable directory
         if (labelText !== '') {
-            const nameEl = document.getElementById(labelText);
-            if (nameEl) {
-                nameEl.scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});
-                nameEl.style.transition = 'all 0.25s ease-in-out';
-                nameEl.style.backgroundColor = 'yellow';
+            // const nameEl = document.getElementById(labelText);
+            const personEl = document.querySelector(`td[person=${labelText}]`)
+            if (personEl) {
+                personEl.scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});
+                // nameEl.scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});
+                // nameEl.style.transition = 'all 0.25s ease-in-out';
+                // nameEl.style.backgroundColor = 'yellow';
+                personEl.style.transition = 'all 0.25s ease-in-out';
+                personEl.style.backgroundColor = 'yellow';
                 setTimeout(() => {
-                    nameEl.style.backgroundColor = 'white';
-                }, 2000);
+                    // nameEl.style.backgroundColor = 'white';
+                    personEl.style.backgroundColor = 'white';
+                }, highlightTime);
                 setTimeout(() => {
-                    nameEl.style.transition = '';
-                }, 2500);
+                    // nameEl.style.transition = '';
+                    personEl.style.transition = '';
+                }, highlightTime + 500);
             }
         }
     }
 
+    let clickedArea;
+
     // Onclick function to handle highlighting the targeted office when a name in the clickable
     // directory is clicked
-    const highlightOffice = el => {
-
-        // Convert the element's ID into title case
-        const name = toTitleCase(el.id.replaceAll('_', ' '));
+    const highlightOffice = name => {
 
         // Switch the map to the office map
         handleMapSwitch(document.getElementById('office'));
 
         // Select the area
-        const area = $(`area[labelText='${name}']`);
-        const scrollElement = area.parent().parent().attr('id');
+        let area;
+        if (name.toLowerCase() === 'security')
+            area = $(`area[labelText='${name}']`)[1];
+        else
+            area = $(`area[labelText='${name}']`);
+        clickedArea = $(area);
+        const scrollElement = $(area).parent().parent().attr('id');
 
         // Trigger the mouseover event and then trigger the mouseout event after 2 seconds
         // This highlights the map area
         setTimeout(() => {
-            area.trigger('mouseover');
-            clicked = true;
-            area.mapster('set', false).mapster('set', true);
-            document.getElementById(scrollElement).scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});
+            if (!clicked) {
+                if(liveSpans !== [] && liveSpans) for (let i = 0; i < liveSpans.length; i++) liveSpans[i].remove();
+                $(area).trigger('mouseover');
+                clicked = true;
+                $(area).mapster('set', false).mapster('set', true);
+                document.getElementById(scrollElement).scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});
+            }
         }, 50)
         setTimeout(() => {
             clicked = false;
-            area.trigger('mouseout');
-            area.mapster('set', false);
-            if(liveSpan !== '' && liveSpan) liveSpan.remove();
-        }, 2050);
+            $(area).trigger('mouseout');
+            $(area).mapster('set', false);
+            if(liveSpans !== [] && liveSpans) for (let i = 0; i < liveSpans.length; i++) liveSpans[i].remove();
+            clickedArea = null;
+        }, highlightTime + 50);
     }
+
+    // Prints out the directory sheet
+    const printDirectory = async () => {
+        const printWindow = window.open(apiBaseUrl + '/api/print_directory');
+        printWindow.addEventListener('message', () => {
+            printWindow.print();
+            setTimeout(() => {
+                printWindow.close();
+            }, 5000);
+        }, false);
+    };
+
+    // Opens calendar iframe and changes src attribute to calendar link
+    const openCalendar = el => {
+        const link = el.getAttribute('calendarLink');
+        const iframe = document.getElementById('calendar-frame');
+        iframe.setAttribute('src', link);
+
+        const iframeCont = document.getElementById('calendar-container');
+        iframeCont.style.height = '570px';
+        iframeCont.style.border = '1px solid #e0e0e0';
+        iframeCont.style.marginBottom = '20px';
+        iframe.style.height = '525px';
+        iframe.style.border = '1px solid #e0e0e0';
+        setTimeout(() => {
+            iframeCont.scrollIntoView({behavior: 'smooth', block: 'center', inline: 'center'});
+        }, 250);
+    };
+
+    // Closes calendar iframe
+    const closeCalendar = () => {
+        const iframe = document.getElementById('calendar-frame');
+        const iframeCont = document.getElementById('calendar-container');
+        iframeCont.style.height = '0';
+        iframeCont.style.marginBottom = '0';
+        iframe.style.height = '0';
+
+        setTimeout(() => {
+            iframeCont.style.border = 'none';
+            iframe.style.border = 'none';
+        }, 200);
+    };
 
     /////////////////////////// END FUNCTIONALITY ///////////////////////////
 
-    // Function required as an href attribute in each of the map areas
-    // This is to deal with some of the weirdness that comes with embedding a script
-    // on Google Pages. Does nothing, but makes sure no new page is opened
-    const doNothing = () => {
-        return;
-    };
-
     /////////////////////////// INITALIZATION ///////////////////////////
+    let json; // Holds the response from the API so that it may be modified
+              // later
+
+    // Fetch the table from the API and render the department directory
+    // Adds relavant event listeners
+    const departmentDirInitialize = async () => {
+        const response = await fetch(apiBaseUrl + '/api/by_department');
+        json = await response.json();
+        await renderDepartmentDirectory(json);
+        $('td').click(directoryClickHandler);
+        $('td svg').mouseover(svgMouseOverHandler);
+        $('td svg').mouseout(svgMouseOutHandler);
+    }
 
     // Function to initialize the page by rendering all the components and starting Mapster
     const initialize = async () => {
 
+        // Add tag name function to JQuery
+        jQuery.fn.tagName = () => {
+            return this.prop('tagName');
+        };
+
         // Run renderers
-        renderClickableDir();
-        renderDepartmentDirectory();
-        renderShowroomDir();
+        // renderClickableDir();
+        departmentDirInitialize();
 
         // Wait until assignOffices is finished to initialize mapster
         await assignOffices();
+
+        $('#search-bar').on('keyup', async function() {
+            var value = $(this).val().toLowerCase();
+            for (const dept in json) {
+                for (const person in json[dept]) {
+                    json[dept][person].hidden = Boolean(!(
+                        person.toLowerCase().indexOf(value) > -1 ||
+                        json[dept][person].extension.indexOf(value) > -1 ||
+                        dept.toLowerCase().indexOf(value) > -1
+                    ));
+                }
+            }
+            $('#department-directory').html('');
+            await renderDepartmentDirectory(json);
+            $('td').click(directoryClickHandler);
+            $('td svg').mouseover(svgMouseOverHandler);
+            $('td svg').mouseout(svgMouseOutHandler);
+        });
+
+        const getClickedArea = () => {
+            return clickedArea;
+        }
+
+        $("iframe").each(function() {
+            this.sandbox += ' allow-modals allow-scripts';
+            console.log(this.sandbox);
+        });
 
         // Initialize mapster
         $('img').mapster({
             mapKey: 'labelText',
             stroke: true,
-            fillColor: 'ffffff',
+            fillColor: 'e0e0e0',
             strokeWidth: 3,
             strokeOpacity: 0.7,
-            strokeColor: '000000',
+            strokeColor: '9900ff',
             fillOpacity : 0.5,
             onMouseover: function(e) {
                 if (!clicked) {
@@ -1058,15 +1671,25 @@
                     text.style['left'] = String(calculateLeftVal(text, centerArr[0]) + 'px');
 
                     text.style['top'] = String(centerArr[2] - text.offsetHeight - 40 > 0 ? centerArr[2] - 40 + 'px' : centerArr[3] + 40 + 'px');
-                    liveSpan = text;
+                    liveSpans.push(text);
+                }
+                else if ($(this).attr('labelText') !== $(getClickedArea()).attr('labelText')){
+                    $(this).mapster('set',false);
                 }
             },
             onMouseout: function(e) { 
                 if (!clicked) {
                     $(this).mapster('set',false);
-                    if (liveSpan != '')
-                        liveSpan?.remove();
-                    liveSpan = '';
+                    if (liveSpans != [])
+                        for (let i = 0; i < liveSpans.length; i++) liveSpans[i].remove();
+                    liveSpans = [];
+                }
+            },
+            onClick: function(e) {
+                if(clicked) {
+                    setTimeout(() => {
+                        $(this).mapster('set', false);
+                    }, 0.1)
                 }
             }
         });
