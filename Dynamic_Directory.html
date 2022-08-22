@@ -913,7 +913,7 @@
                         <circle cx="399.8" cy="293.6" r="21.4"/>
                       </g>
                     </g>
-                  </svg>
+                </svg>
                 <div id='department-directory' class='directory'>
                 </div>
             </div>
@@ -1636,12 +1636,7 @@
         const getClickedArea = () => {
             return clickedArea;
         }
-
-        $("iframe").each(function() {
-            this.sandbox += ' allow-modals allow-scripts';
-            console.log(this.sandbox);
-        });
-
+        
         // Initialize mapster
         $('img').mapster({
             mapKey: 'labelText',
