@@ -1615,6 +1615,11 @@
         // Wait until assignOffices is finished to initialize mapster
         await assignOffices();
 
+        // Add event listener to search bar
+        // Works by testing if the current query is present in any of
+        // name, extension, or department, if it is NOT then add a 'hidden'
+        // property that the render function will use to determine whether
+        // to render the person or not
         $('#search-bar').on('keyup', async function() {
             var value = $(this).val().toLowerCase();
             for (const dept in json) {
@@ -1633,6 +1638,7 @@
             $('td svg').mouseout(svgMouseOutHandler);
         });
 
+        // Written as a function to get updated values in mapster
         const getClickedArea = () => {
             return clickedArea;
         }

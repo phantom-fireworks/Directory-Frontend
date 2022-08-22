@@ -405,6 +405,9 @@
         $('td svg').mouseover(svgMouseOverHandler);
         $('td svg').mouseout(svgMouseOutHandler);
 
+        // Add event listener to search bar
+        // Works by testing if the current query is present in any of
+        // the text within the element, if it is NOT then hide the element
         $('#search-bar').on('keyup', function() {
             var value = $(this).val().toLowerCase().replaceAll('(', '').replaceAll(')', '').replaceAll('-', '').replaceAll(' ', '');
             $('#showroom-directory tr:not(:has(>th))').filter(function() {
