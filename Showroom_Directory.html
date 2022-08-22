@@ -1,0 +1,421 @@
+<style>
+    .sheet-container svg:not(.tooltip svg, .store-data svg) {
+        height: 23px;
+        width: 23px;
+        position: absolute;
+        top: 0.35rem;
+        right: 2.5rem;
+        cursor: pointer;
+        fill: #a3a3a3;
+    }
+    /*Scrollbar Stylings*/
+    ::-webkit-scrollbar {
+        -webkit-border-radius: 100px;
+        border-radius: 100px;
+        background-color: rgba(0,0,0,0);
+        width: 9px;
+    }
+    ::-webkit-scrollbar {
+        height: 16px;
+        overflow: visible;
+        width: 16px;
+    }
+    ::-webkit-scrollbar-button {
+        height: 0;
+        width: 0;
+    }
+    ::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+    .directory::-webkit-scrollbar-thumb {
+        border-style: solid;
+        border-color: transparent;
+        border-width: 4px;
+        background-color: #dadce0;
+        -webkit-border-radius: 8px;
+        border-radius: 8px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+    ::-webkit-scrollbar-thumb {
+        border: 1px solid #f0f0f0;
+    }
+    ::-webkit-scrollbar-thumb {
+        -webkit-border-radius: 100px;
+        border-radius: 100px;
+        background: rgba(0,0,0,.2);
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(0,0,0,.2);
+        background-clip: padding-box;
+        border: solid transparent;
+        border-width: 1px 1px 1px 6px;
+        min-height: 28px;
+        padding: 100px 0 0;
+        -webkit-box-shadow: inset 1px 1px 0 rgb(0 0 0 / 10%), inset 0 -1px 0 rgb(0 0 0 / 7%);
+        box-shadow: inset 1px 1px 0 rgb(0 0 0 / 10%), inset 0 -1px 0 rgb(0 0 0 / 7%);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: rgb(128 134 139);
+    }
+    .directory::-webkit-scrollbar-track {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        margin: 0 4px;
+    }
+    ::-webkit-scrollbar-track {
+        background-clip: padding-box;
+        border: solid transparent;
+        border-width: 0 0 0 4px;
+    }
+
+    /*Directory Stylings*/
+    .clickable{
+        cursor: pointer;
+    }
+    .clickable:hover {
+        background-color: yellow !important;
+    }
+    .directory {
+        width: 100%;
+        border: 1px solid #e0e0e0;
+    }
+    .sheet-container, .bottom-row {
+        width: 100%;
+        box-shadow: rgb(45 35 66 / 40%) 0 2px 4px, rgb(45 35 66 / 30%) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+        position: relative;
+        font-family: Roboto, sans-serif;
+    }
+    .bottom-row {
+        margin-top: 20px;
+    }
+    .sheet-container h4, .bottom-row h4 {
+        font-weight: 100;
+        margin: 0;
+        padding: 7px;
+    }
+    .top-row {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+    #scrollable-directory {
+        height: 729px;
+        max-width: 100%;
+        overflow: scroll;
+        width: auto;
+    }
+    #department-directory {
+        height: 729px;
+        max-width: 100%;
+        overflow: scroll;
+    }
+    table, th, td {
+        text-align: center;
+        font-family: 'docs-Calibri',Arial;
+    }
+    .left-align {
+        text-align: left;
+    }
+    .directory.store-directory {
+        width: 100%;
+        overflow: scroll;
+    }
+    .directory.store-directory td {
+        font-size: 12pt;
+    }
+    .directory.store-directory table {
+        width: 100%;
+    }
+    td {
+        border: 1px solid rgb(217 217 217);
+        border-top: 1rem rgb(217 217 217);
+        white-space: nowrap;
+        font-size: 11pt;
+        transition: all 0.07s ease-in-out;
+    }
+    tr {
+        transition: all 0.07s ease-in-out;
+    }
+    th {
+        background-color: #9900ff;
+        font-weight: bolder;
+        color: white;
+        font-size: 14pt;
+        border: 1px solid black;
+        white-space: nowrap;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    .store-data {
+        position: relative;
+        padding: 11px 30px 11px 0px;
+    }
+    .store-data svg {
+        position: absolute;
+        right: 5px;
+        bottom: 6px;
+        cursor: pointer;
+        transition: all 0.07s ease-in-out;
+        fill: white;
+        padding: 3px;
+        border-radius: 30px;
+        background: #9900ff;
+    }
+
+    .flex-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .search-box {
+        font-family: Roboto, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 3rem;
+        box-shadow: rgb(45 35 66 / 40%) 0 2px 4px, rgb(45 35 66 / 30%) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .search-box p, .search-box input {
+        margin: 0;
+    }
+    .search-box input {
+        border: none;
+        box-shadow: rgb(45 35 66 / 40%) 0 2px 4px inset, rgb(45 35 66 / 30%) 0 7px 13px -3px inset, #d6d6e7 0 -3px 0 inset;
+        padding: 10px;
+        border-radius: 10px;
+        width: 25rem;
+    }
+    .search-box input:focus-visible {
+        outline: none;
+    }
+    .search-box p {
+        font-weight: 700;
+    }
+
+    /* Tooltip Stylings */
+    .tooltip-parent {
+        position: absolute;
+        right: 2rem;
+        top: 2rem;
+        cursor: pointer;
+    }
+    .question-mark-svg {
+        height: 50px;
+        width: 50px;
+        fill: #a3a3a3;
+    }
+    /* Tooltip container */
+    .tooltip {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Tooltip text */
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 355px;
+        background-color: white;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+        position: absolute;
+        z-index: 1;
+        top: 100%;
+        left: -495%;
+        margin-left: -60px;
+        opacity: 0;
+        padding-right: 25px;
+        padding-top: 1rem;
+        transition: opacity 0.3s;
+        box-shadow: rgb(45 35 66 / 40%) 0 2px 4px, rgb(45 35 66 / 30%) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+    }
+
+    /* Tooltip arrow */
+    .tooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        bottom: 100%;
+        left: 95%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: white transparent transparent transparent;
+        transform: rotate(180deg);
+    }
+
+    /* Show the tooltip text when you mouse over the tooltip container */
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
+    .tooltiptext ul {
+        text-align: left;
+    }
+    .sheet-container .tooltip-parent {
+        top: 0.25rem;
+        right: 0.5rem;
+    }
+    .sheet-container .tooltip .tooltiptext {
+        left: -1150%;
+    }
+    .tooltiptext h3 {
+        padding-left: 40px;
+        margin-top: 0;
+    }
+</style>
+
+<script
+  src='https://code.jquery.com/jquery-3.6.0.min.js'
+  integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4='
+  crossorigin='anonymous'></script>
+<div class='flex-container'>
+    <div class='search-box'>
+        <p>Search:</p>
+        <input id='search-bar' placeholder='Enter Showroom Name, Address, City, State, Zip, or Phone #' type='text' />
+    </div>
+
+    <div class='bottom-row sheet-container'>
+        <h4>Store Directory</h4>
+        <div class='tooltip-parent'>
+            <div class='tooltip'>
+                <svg xmlns="http://www.w3.org/2000/svg" class="question-mark-svg" 
+                viewBox="0 0 1024 1024" version="1.1" style='height: 25px; width: 25px;'>
+                    <path d="M512 85.333333a426.666667 426.666667 0 1 0 426.666667 426.666667A426.666667 426.666667 
+                    0 0 0 512 85.333333z m0 768a341.333333 341.333333 0 1 1 341.333333-341.333333 341.333333 341.333333 
+                    0 0 1-341.333333 341.333333z"/>
+                    <path d="M512 256a149.333333 149.333333 0 0 0-149.333333 149.333333 42.666667 42.666667 0 0 0 85.333333 
+                    0A64 64 0 1 1 512 469.333333a42.666667 42.666667 0 0 0-42.666667 42.666667v85.333333a42.666667 42.666667 
+                    0 0 0 85.333334 0v-49.493333A148.906667 148.906667 0 0 0 512 256z"/>
+                    <path d="M512 725.333333m-42.666667 0a42.666667 42.666667 0 1 0 85.333334 0 42.666667 42.666667 
+                    0 1 0-85.333334 0Z"/>
+                </svg>
+                <span class='tooltiptext'>
+                    <h3>How to use the showroom directory:</h3>
+                    <ul>
+                        <li>
+                            Use the search bar above to search for a showroom name, address, city, state, zip, or phone
+                        </li>
+                        <li>
+                            Click on the phone icon to call them directly from your computer (<i>Note: This requires Webex to work properly</i>)
+                        </li>
+                    </ul>
+                </span>
+            </div>
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 512 512" enable-background="new 0 0 512 512"
+            onclick='printDirectory()'>
+            <g>
+                <g>
+                    <path d="m480.6,207.7h-112.3v-114c0-5.3-2.1-10.4-5.7-14.2l-60.2-62.3c-3.8-4-9.2-6.2-14.7-6.2h-128.7c-11.3,0-20.4,9.1-20.4,20.4v176.3h-107.2c-11.3,0-20.4,9.1-20.4,20.4v193c0,11.3 
+                    9.1,20.4 20.4,20.4h45.9v39c0,11.3 9.1,20.4 20.4,20.4h325c11.3,0 20.4-9.1 20.4-20.4v-39h37.4c11.3,0 
+                    20.4-9.1 20.4-20.4v-193c0.1-11.2-9-20.4-20.3-20.4zm-301.2-155.9h99.6l48.4,50.1v105.8h-148v-155.9zm222.9,
+                    408.4h-284.1v-70.6h284.1v70.6zm57.9-59.4h-17v-31.6c0-11.3-9.1-20.4-20.4-20.4h-325c-11.3,0-20.4,9.1-20.4,20.4v31.6h-25.6v-152.2h408.3v152.2z"/>
+                    <circle cx="399.8" cy="293.6" r="21.4"/>
+                </g>
+            </g>
+        </svg>
+        <div class='store-directory directory'>
+        </div>
+    </div>
+</div>
+
+<script>
+    const apiBaseUrl = 'https://fireworks-directory-api.herokuapp.com'; // Base URL of the API
+    const svgMouseOverHandler = e => {
+        const svg = e.target.tagName.toLowerCase() === 'svg' ? $(e.target) : $(e.target).parent().parent();
+        $(svg).css('height', '30px');
+        $(svg).css('width', '30px');
+        $(svg).css('bottom', '1px');
+        $(svg).css('fill', '#9900ff');
+        $(svg).css('background', 'none');
+    };
+
+    const svgMouseOutHandler = e => {
+        const svg = e.target.tagName.toLowerCase() === 'svg' ? $(e.target) : $(e.target).parent().parent();
+        $(svg).css('height', '20px');
+        $(svg).css('width', '20px');
+        $(svg).css('bottom', '6px');
+        $(svg).css('fill', 'white');
+        $(svg).css('background', '#9900ff');
+    };
+
+    const generateSvg = number => {
+        const phoneSvg = `<svg onclick='openPhone(${number})' class='phone-svg' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' 
+                            id='Capa_1' x='0px' y='0px' width='20px' height='20px' viewBox='0 0 891.024 891.024' style='enable-background:new 0 0 891.024 891.024;' xml:space='preserve'
+                            alt='Call them'>
+                            <g>
+                                <path d='M2.8,180.875c46.6,134,144.7,286.2,282.9,424.399c138.2,138.2,290.4,236.301,424.4,282.9c18.2,6.3,38.3,1.8,52-11.8   
+                                l92.7-92.7l21.6-21.6c19.5-19.5,19.5-51.2,0-70.7l-143.5-143.4c-19.5-19.5-51.2-19.5-70.7,0l-38.899,38.9   
+                                c-20.2,20.2-52.4,22.2-75,4.6c-44.7-34.8-89-73.899-131.9-116.8c-42.9-42.9-82-87.2-116.8-131.9c-17.601-22.6-15.601-54.7,4.6-75   
+                                l38.9-38.9c19.5-19.5,19.5-51.2,0-70.7l-143.5-143.5c-19.5-19.5-51.2-19.5-70.7,0l-21.6,21.6l-92.7,92.7   
+                                C1,142.575-3.5,162.675,2.8,180.875z'/>
+                            </g>
+                        </svg>`
+        return phoneSvg;
+    };
+
+    // Opens comms program to call the selected telephone number
+    const openPhone = (number) => {
+        window.open(`tel:+1${number}`);
+    }
+
+    // Renders the showroom directory by making a request to the custom api and building the
+    // required elements
+    const renderShowroomDir = async () => {
+        
+        // Get data from the api and parse into a JSON object
+        const response = await fetch(apiBaseUrl + '/api/store_directory');
+        const json = await response.json();
+
+        // Create base elements
+        const table = document.createElement('table');
+        table.id = 'showroom-directory'
+        const header = document.createElement('tr');
+        header.innerHTML = '<th>Showroom</th><th>Address</th><th>City</th><th>State</th><th>Zip</th><th>Phone</th>'
+
+        // Create the rows populated with data and push onto the array
+        const rowArr = [header];
+        for (const key in json) {
+            const row = document.createElement('tr');
+            const phoneHref = json[key].phone.replaceAll('(', '').replaceAll(')', '').replaceAll('-', '').replaceAll(' ', '');
+            console.log(phoneHref);
+            row.innerHTML = `
+                            <td class='left-align'>${key}</td>
+                            <td>${json[key].address}</td>
+                            <td>${json[key].city}</td>
+                            <td>${json[key].state}</td>
+                            <td>${json[key].zip}</td>
+                            <td class='store-data'>${json[key].phone} ${generateSvg(phoneHref)}</td>
+                            `;
+            rowArr.push(row);
+        }
+
+        // Append each row to the table element
+        for (let i = 0; i < rowArr.length; i++) {
+            table.appendChild(rowArr[i]);
+        }
+
+        // Append the table to the proper div
+        document.querySelector('.store-directory.directory').appendChild(table);
+        $('td svg').mouseover(svgMouseOverHandler);
+        $('td svg').mouseout(svgMouseOutHandler);
+
+        $('#search-bar').on('keyup', function() {
+            var value = $(this).val().toLowerCase().replaceAll('(', '').replaceAll(')', '').replaceAll('-', '').replaceAll(' ', '');
+            $('#showroom-directory tr:not(:has(>th))').filter(function() {
+                $(this).toggle($(this).text().toLowerCase().replaceAll('(', '').replaceAll(')', '').replaceAll('-', '').replaceAll(' ', '').indexOf(value) > -1);
+            });
+        });
+    }
+
+    const printDirectory = () => {
+        const printWindow = window.open(apiBaseUrl + '/api/print_store_directory');
+    }
+
+    renderShowroomDir();
+</script>

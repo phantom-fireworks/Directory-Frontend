@@ -1550,12 +1550,6 @@
     // Prints out the directory sheet
     const printDirectory = async () => {
         const printWindow = window.open(apiBaseUrl + '/api/print_directory');
-        printWindow.addEventListener('message', () => {
-            printWindow.print();
-            setTimeout(() => {
-                printWindow.close();
-            }, 5000);
-        }, false);
     };
 
     // Opens calendar iframe and changes src attribute to calendar link
