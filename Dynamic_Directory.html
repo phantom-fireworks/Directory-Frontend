@@ -1128,7 +1128,6 @@
                 }
             ).sort(
                 (keyA, keyB) => {
-                    console.log(parseInt(departmentObj[keyA].rowWeight) - parseInt(departmentObj[keyB].rowWeight));
                     return parseInt(departmentObj[keyA].rowWeight) - parseInt(departmentObj[keyB].rowWeight);
                 }
             ).reduce(
@@ -1146,7 +1145,6 @@
             }
         }
         alphabetical = tempObj;
-        console.log(alphabetical);
         keys = Object.keys(alphabetical);
 
         // Group the keys in groups of 3 to render the table
@@ -1434,12 +1432,10 @@
             // if (thisId === 'department') {
             //     $('#by-department area').mapster('select');
             //     $('#by-department1 area').mapster('select');
-            //     console.log('eh');
             // }
             // else {
             //     $('#by-department area').mapster('deselect');
             //     $('#by-department1 area').mapster('deselect');
-            //     console.log('eh');
             // }
 
             $(`#floor1-tornado`).hide();
