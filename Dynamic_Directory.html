@@ -137,7 +137,7 @@
     .emergency-selector.right {
         right: 45px;
     }
-    #floor1-fire, #floor2-fire {
+    .map-container {
         position: relative;
     }
     .floating-compass {
@@ -146,6 +146,7 @@
         width: 90px;
         top: 15px;
         left: 15px;
+        z-index: 1;
     }
     
     /*Scrollbar Stylings*/
@@ -677,7 +678,8 @@
     <div id='map-area'>
         <div class='inner-cont'>
             <div id='floor1' class='realtive-position'>
-                <div id='floor1-department'>
+                <div id='floor1-department' class='map-container'>
+                    <img class='floating-compass' src ='https://fireworks-directory-api.herokuapp.com/api/images/compass.png'>
                     <img id='floor1-department-img' class='base-img' src='https://fireworks-directory-api.herokuapp.com/api/images/floor1.png' usemap='#by-department1'>
                     <map id='by-department1' style='visibility: hidden;' name='by-department1'>
                         <area target='_self' alt='1' title='1' href='#' onclick='highlightRelevantDepartment(this)' labelText='Reception' coords='1215,334,20' shape='circle'>
@@ -694,7 +696,8 @@
                     </map>
                 </div>
 
-                <div id='floor1-office' style='display: none'>
+                <div id='floor1-office' class='map-container' style='display: none'>
+                    <img class='floating-compass' src ='https://fireworks-directory-api.herokuapp.com/api/images/compass.png'>
                     <img id='floor1-office-img' class='base-img' src='https://fireworks-directory-api.herokuapp.com/api/images/floor1.png' usemap='#by-office1'>
                     <map id='by-office1' style='visibility: hidden;' name='by-office1'>
                         <area target='_self' alt='1' title='1' href='#' labelText='IT Annex' coords='147,165,236,208' shape='rect'>
@@ -760,7 +763,8 @@
                     </map>
                 </div>
                 
-                <div id='floor1-tornado' style='display: none'>
+                <div id='floor1-tornado' class='map-container' style='display: none'>
+                    <img class='floating-compass' src ='https://fireworks-directory-api.herokuapp.com/api/images/compass.png'>
                     <img id='floor1-tornado-img' class='base-img' src='https://fireworks-directory-api.herokuapp.com/api/images/floor1.png' usemap='#floor1-tornado-map'>
                     <map id='floor1-tornado-map' style='visibility: hidden;' name='floor1-tornado-map'>
                         <area target='_self' floor='1' alt='A' title='A' href='#' onclick='highlightShelter(this)' labelText='Section A' coords='145,162,439,506' shape='rect'>
@@ -774,7 +778,7 @@
                     </map>
                 </div>
                 
-                <div id='floor1-fire' style='display: none'>
+                <div id='floor1-fire' class='map-container' style='display: none'>
                     <img class='floating-compass' src ='https://fireworks-directory-api.herokuapp.com/api/images/compass.png'>
                     <img id='floor1-fire-img' class='base-img' src='https://fireworks-directory-api.herokuapp.com/api/images/floor1-evac.png'>
                 </div>
