@@ -448,6 +448,7 @@
             if (newWidth === curWidth &&
                 newHeight === curHeight) {
                 resize(newWidth,newHeight);
+                drawAllOnCanvas();
             }
             checking=false;
         }, resizeDelay);
