@@ -13,7 +13,7 @@
     /////////////////////////// END UTILITES ///////////////////////////
 
     /////////////////////////// RENDERERS ///////////////////////////
-    const apiBaseUrl = 'https://fireworks-directory-api.herokuapp.com'; // Base URL of the API
+    const apiBaseUrl = 'https://phantom-directory-backend-618d96d93f92.herokuapp.com'; // Base URL of the API
 
     // Opens the system dialer to call the extension passed in
     // If there is more than one extension in the string passed,
