@@ -382,7 +382,7 @@ table {
     position: absolute;
     right: 2rem;
     top: 2rem;
-    cursor: pointer;
+    cursor: help;
 }
 .question-mark-svg {
     height: 50px;
